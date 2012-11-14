@@ -116,12 +116,12 @@ Namespace AnthroAddIn
                 Dim DXFPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.DXFIcon, 16, 16))
                 Dim iPropertyPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.iProperty, 16, 16))
                 Dim DWFxPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.DWF_Viewer, 16, 16))
-                Dim SlotFeaturePicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.SlotFeature, 32, 32))
-                Dim DrawLineArtPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.edit, 32, 32))
-                Dim DimensionPrecisionPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.fix, 32, 32))
-                Dim ComponentPlaceholderPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.Component, 32, 32))
-                Dim TopAreaPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.TopArea, 32, 32))
-                Dim DrawRectanglePicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.Draw, 32, 32))
+                Dim SlotFeaturePicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.SlotFeature, 16, 16))
+                Dim DrawLineArtPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.edit, 16, 16))
+                Dim DimensionPrecisionPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.fix, 16, 16))
+                Dim ComponentPlaceholderPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.Component, 16, 16))
+                Dim TopAreaPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.TopArea, 16, 16))
+                Dim DrawRectanglePicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.Draw, 16, 16))
 
                 m_moveFastenersToFolderButtonDef = controlDefs.AddButtonDefinition("Move Fasteners", _
                                         "MoveFastenersToFolder",
