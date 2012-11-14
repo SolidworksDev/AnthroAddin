@@ -389,64 +389,64 @@ Namespace AnthroAddIn
 
 #Region "COM Registration"
 
-        ' Registers this class as an AddIn for Inventor.
-        ' This function is called when the assembly is registered for COM.
-        <ComRegisterFunctionAttribute()> _
-        Public Shared Sub Register(ByVal t As Type)
+        '' Registers this class as an AddIn for Inventor.
+        '' This function is called when the assembly is registered for COM.
+        '<ComRegisterFunctionAttribute()> _
+        'Public Shared Sub Register(ByVal t As Type)
 
-            Dim clssRoot As RegistryKey = Registry.ClassesRoot
-            Dim clsid As RegistryKey = Nothing
-            Dim subKey As RegistryKey = Nothing
+        '    Dim clssRoot As RegistryKey = Registry.ClassesRoot
+        '    Dim clsid As RegistryKey = Nothing
+        '    Dim subKey As RegistryKey = Nothing
 
-            Try
+        '    Try
 
-                clsid = clssRoot.CreateSubKey("CLSID\" + AddInGuid(t))
-                clsid.SetValue(Nothing, "Anthro Customizations")
-                subKey = clsid.CreateSubKey("Implemented Categories\{39AD2B5C-7A29-11D6-8E0A-0010B541CAA8}")
-                subKey.Close()
+        '        clsid = clssRoot.CreateSubKey("CLSID\" + AddInGuid(t))
+        '        clsid.SetValue(Nothing, "Anthro Customizations")
+        '        subKey = clsid.CreateSubKey("Implemented Categories\{39AD2B5C-7A29-11D6-8E0A-0010B541CAA8}")
+        '        subKey.Close()
 
-                subKey = clsid.CreateSubKey("Settings")
-                subKey.SetValue("AddInType", "Standard")
-                subKey.SetValue("LoadOnStartUp", "1")
-                subKey.SetValue("SupportedSoftwareVersionGreaterThan", "13..")
-                subKey.SetValue("Version", "0.9.99")
-                subKey.Close()
+        '        subKey = clsid.CreateSubKey("Settings")
+        '        subKey.SetValue("AddInType", "Standard")
+        '        subKey.SetValue("LoadOnStartUp", "1")
+        '        subKey.SetValue("SupportedSoftwareVersionGreaterThan", "13..")
+        '        subKey.SetValue("Version", "0.9.99")
+        '        subKey.Close()
 
-                subKey = clsid.CreateSubKey("Description")                
-                subKey.SetValue(Nothing, "Testing the addin")
+        '        subKey = clsid.CreateSubKey("Description")
+        '        subKey.SetValue(Nothing, "Testing the addin")
 
-            Catch ex As Exception
-                System.Diagnostics.Trace.Assert(False)
-            Finally
-                If Not subKey Is Nothing Then subKey.Close()
-                If Not clsid Is Nothing Then clsid.Close()
-                If Not clssRoot Is Nothing Then clssRoot.Close()
-            End Try
+        '    Catch ex As Exception
+        '        System.Diagnostics.Trace.Assert(False)
+        '    Finally
+        '        If Not subKey Is Nothing Then subKey.Close()
+        '        If Not clsid Is Nothing Then clsid.Close()
+        '        If Not clssRoot Is Nothing Then clssRoot.Close()
+        '    End Try
 
-        End Sub
+        'End Sub
 
-        ' Unregisters this class as an AddIn for Inventor.
-        ' This function is called when the assembly is unregistered.
-        <ComUnregisterFunctionAttribute()> _
-        Public Shared Sub Unregister(ByVal t As Type)
+        '' Unregisters this class as an AddIn for Inventor.
+        '' This function is called when the assembly is unregistered.
+        '<ComUnregisterFunctionAttribute()> _
+        'Public Shared Sub Unregister(ByVal t As Type)
 
-            Dim clssRoot As RegistryKey = Registry.ClassesRoot
-            Dim clsid As RegistryKey = Nothing
+        '    Dim clssRoot As RegistryKey = Registry.ClassesRoot
+        '    Dim clsid As RegistryKey = Nothing
 
-            Try
-                clssRoot = Microsoft.Win32.Registry.ClassesRoot
-                clsid = clssRoot.OpenSubKey("CLSID\" + AddInGuid(t), True)
-                clsid.SetValue(Nothing, "")
-                clsid.DeleteSubKeyTree("Implemented Categories\{39AD2B5C-7A29-11D6-8E0A-0010B541CAA8}")
-                clsid.DeleteSubKeyTree("Settings")
-                clsid.DeleteSubKeyTree("Description")
-            Catch
-            Finally
-                If Not clsid Is Nothing Then clsid.Close()
-                If Not clssRoot Is Nothing Then clssRoot.Close()
-            End Try
+        '    Try
+        '        clssRoot = Microsoft.Win32.Registry.ClassesRoot
+        '        clsid = clssRoot.OpenSubKey("CLSID\" + AddInGuid(t), True)
+        '        clsid.SetValue(Nothing, "")
+        '        clsid.DeleteSubKeyTree("Implemented Categories\{39AD2B5C-7A29-11D6-8E0A-0010B541CAA8}")
+        '        clsid.DeleteSubKeyTree("Settings")
+        '        clsid.DeleteSubKeyTree("Description")
+        '    Catch
+        '    Finally
+        '        If Not clsid Is Nothing Then clsid.Close()
+        '        If Not clssRoot Is Nothing Then clssRoot.Close()
+        '    End Try
 
-        End Sub
+        'End Sub
 
         ' This property uses reflection to get the value for the GuidAttribute attached to the class.
         Public Shared ReadOnly Property AddInGuid(ByVal t As Type) As String

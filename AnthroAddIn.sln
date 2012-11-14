@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AnthroAddIn", "AnthroAddIn.vbproj", "{DADD5657-C173-401A-8A1F-53018F4A932F}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "..\Setup\Setup.vdproj", "{DDF431FA-1C9D-4A41-98A4-C78586750344}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,8 @@ Global
 		{DADD5657-C173-401A-8A1F-53018F4A932F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DADD5657-C173-401A-8A1F-53018F4A932F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DADD5657-C173-401A-8A1F-53018F4A932F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDF431FA-1C9D-4A41-98A4-C78586750344}.Debug|Any CPU.ActiveCfg = Debug
+		{DDF431FA-1C9D-4A41-98A4-C78586750344}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

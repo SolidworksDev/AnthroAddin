@@ -73,7 +73,7 @@ Public Class CreatePlaceHolderComponentDialog
                 vaultParentFolder = serverLogin.docSvc.GetFolderByPath(strParentFolder)
                 newVaultFolder = serverLogin.docSvc.AddFolder(strFolderName, vaultParentFolder.Id, False)
                 vaultFolder = serverLogin.docSvc.GetFolderById(newVaultFolder.Id)
-                serverLogin.docSvc.AddFile(vaultFolder.Id, fileName, "Initial check-in", System.IO.File.GetLastAccessTime(filePath), Nothing, Nothing, Nothing, Nothing, Nothing, DocumentSvc.FileClassification.None, False, bytes)
+                serverLogin.docSvc.AddFile(vaultFolder.Id, fileName, "Initial check-in", System.IO.File.GetLastAccessTime(filePath), Nothing, Nothing, Nothing, False, bytes)
             End If
 
         Catch ex As Exception

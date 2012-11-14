@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://AutodeskDM/Services/Security/1/26/2009/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://AutodeskDM/Services/Security/1/26/2009/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://AutodeskDM/Services/Security/1/20/2011/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://AutodeskDM/Services/Security/1/20/2011/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
-    <s:schema elementFormDefault="qualified" targetNamespace="http://AutodeskDM/Services/Security/1/26/2009/">
+    <s:schema elementFormDefault="qualified" targetNamespace="http://AutodeskDM/Services/Security/1/20/2011/">
       <s:element name="SignIn">
         <s:complexType>
           <s:sequence>
@@ -22,6 +22,19 @@
         </s:sequence>
         <s:anyAttribute />
       </s:complexType>
+      <s:element name="SignInAltLicense">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="knowledgeVault" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="p" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SignInAltLicenseResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="SignInReadOnly">
         <s:complexType>
           <s:sequence>
@@ -63,9 +76,11 @@
       </s:element>
       <s:complexType name="License">
         <s:attribute name="Name" type="s:string" />
+        <s:attribute name="ProdKey" type="s:string" />
         <s:attribute name="Typ" type="tns:LicenseType" use="required" />
         <s:attribute name="Bhv" type="tns:LicenseBehavior" use="required" />
         <s:attribute name="Id" type="s:string" />
+        <s:attribute name="FeatureVer" type="s:string" />
         <s:attribute name="Server" type="s:string" />
         <s:attribute name="Host" type="s:string" />
         <s:attribute name="SerialNum" type="s:string" />
@@ -264,6 +279,15 @@
   <wsdl:message name="SignInSecurityHeader">
     <wsdl:part name="SecurityHeader" element="tns:SecurityHeader" />
   </wsdl:message>
+  <wsdl:message name="SignInAltLicenseSoapIn">
+    <wsdl:part name="parameters" element="tns:SignInAltLicense" />
+  </wsdl:message>
+  <wsdl:message name="SignInAltLicenseSoapOut">
+    <wsdl:part name="parameters" element="tns:SignInAltLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="SignInAltLicenseSecurityHeader">
+    <wsdl:part name="SecurityHeader" element="tns:SecurityHeader" />
+  </wsdl:message>
   <wsdl:message name="SignInReadOnlySoapIn">
     <wsdl:part name="parameters" element="tns:SignInReadOnly" />
   </wsdl:message>
@@ -359,6 +383,10 @@
       <wsdl:input message="tns:SignInSoapIn" />
       <wsdl:output message="tns:SignInSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="SignInAltLicense">
+      <wsdl:input message="tns:SignInAltLicenseSoapIn" />
+      <wsdl:output message="tns:SignInAltLicenseSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="SignInReadOnly">
       <wsdl:input message="tns:SignInReadOnlySoapIn" />
       <wsdl:output message="tns:SignInReadOnlySoapOut" />
@@ -403,7 +431,7 @@
   <wsdl:binding name="SecurityServiceSoap" type="tns:SecurityServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="SignIn">
-      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/SignIn" style="document" />
+      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/SignIn" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -412,8 +440,18 @@
         <soap:header message="tns:SignInSecurityHeader" part="SecurityHeader" use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SignInAltLicense">
+      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/SignInAltLicense" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+        <soap:header message="tns:SignInAltLicenseSecurityHeader" part="SecurityHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="SignInReadOnly">
-      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/SignInReadOnly" style="document" />
+      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/SignInReadOnly" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -423,7 +461,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SignIn2">
-      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/SignIn2" style="document" />
+      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/SignIn2" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -433,7 +471,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SignOut">
-      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/SignOut" style="document" />
+      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/SignOut" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:SignOutSecurityHeader" part="SecurityHeader" use="literal" />
@@ -444,7 +482,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetLicense">
-      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/GetLicense" style="document" />
+      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/GetLicense" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetLicenseSecurityHeader" part="SecurityHeader" use="literal" />
@@ -454,7 +492,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetACLsByEntityIds">
-      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/GetACLsByEntityIds" style="document" />
+      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/GetACLsByEntityIds" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetACLsByEntityIdsSecurityHeader" part="SecurityHeader" use="literal" />
@@ -464,7 +502,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="UpdateACL">
-      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/UpdateACL" style="document" />
+      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/UpdateACL" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:UpdateACLSecurityHeader" part="SecurityHeader" use="literal" />
@@ -474,7 +512,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetACLUpdateRestrictions">
-      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/GetACLUpdateRestrictions" style="document" />
+      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/GetACLUpdateRestrictions" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetACLUpdateRestrictionsSecurityHeader" part="SecurityHeader" use="literal" />
@@ -484,7 +522,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="AddSystemACL">
-      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/AddSystemACL" style="document" />
+      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/AddSystemACL" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:AddSystemACLSecurityHeader" part="SecurityHeader" use="literal" />
@@ -494,7 +532,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SetSystemACLs">
-      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/SetSystemACLs" style="document" />
+      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/SetSystemACLs" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:SetSystemACLsSecurityHeader" part="SecurityHeader" use="literal" />
@@ -504,7 +542,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetEntACLsByEntityIds">
-      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/GetEntACLsByEntityIds" style="document" />
+      <soap:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/GetEntACLsByEntityIds" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetEntACLsByEntityIdsSecurityHeader" part="SecurityHeader" use="literal" />
@@ -517,7 +555,7 @@
   <wsdl:binding name="SecurityServiceSoap12" type="tns:SecurityServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="SignIn">
-      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/SignIn" style="document" />
+      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/SignIn" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -526,8 +564,18 @@
         <soap12:header message="tns:SignInSecurityHeader" part="SecurityHeader" use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SignInAltLicense">
+      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/SignInAltLicense" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SignInAltLicenseSecurityHeader" part="SecurityHeader" use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="SignInReadOnly">
-      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/SignInReadOnly" style="document" />
+      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/SignInReadOnly" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -537,7 +585,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SignIn2">
-      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/SignIn2" style="document" />
+      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/SignIn2" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -547,7 +595,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SignOut">
-      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/SignOut" style="document" />
+      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/SignOut" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:SignOutSecurityHeader" part="SecurityHeader" use="literal" />
@@ -558,7 +606,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetLicense">
-      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/GetLicense" style="document" />
+      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/GetLicense" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetLicenseSecurityHeader" part="SecurityHeader" use="literal" />
@@ -568,7 +616,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetACLsByEntityIds">
-      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/GetACLsByEntityIds" style="document" />
+      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/GetACLsByEntityIds" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetACLsByEntityIdsSecurityHeader" part="SecurityHeader" use="literal" />
@@ -578,7 +626,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="UpdateACL">
-      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/UpdateACL" style="document" />
+      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/UpdateACL" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:UpdateACLSecurityHeader" part="SecurityHeader" use="literal" />
@@ -588,7 +636,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetACLUpdateRestrictions">
-      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/GetACLUpdateRestrictions" style="document" />
+      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/GetACLUpdateRestrictions" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetACLUpdateRestrictionsSecurityHeader" part="SecurityHeader" use="literal" />
@@ -598,7 +646,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="AddSystemACL">
-      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/AddSystemACL" style="document" />
+      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/AddSystemACL" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:AddSystemACLSecurityHeader" part="SecurityHeader" use="literal" />
@@ -608,7 +656,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SetSystemACLs">
-      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/SetSystemACLs" style="document" />
+      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/SetSystemACLs" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:SetSystemACLsSecurityHeader" part="SecurityHeader" use="literal" />
@@ -618,7 +666,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetEntACLsByEntityIds">
-      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/26/2009/GetEntACLsByEntityIds" style="document" />
+      <soap12:operation soapAction="http://AutodeskDM/Services/Security/1/20/2011/GetEntACLsByEntityIds" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetEntACLsByEntityIdsSecurityHeader" part="SecurityHeader" use="literal" />
@@ -630,10 +678,10 @@
   </wsdl:binding>
   <wsdl:service name="SecurityService">
     <wsdl:port name="SecurityServiceSoap" binding="tns:SecurityServiceSoap">
-      <soap:address location="http://svr09/AutodeskDM/services/SecurityService.asmx" />
+      <soap:address location="http://svr19/AutodeskDM/services/Securityservice.asmx" />
     </wsdl:port>
     <wsdl:port name="SecurityServiceSoap12" binding="tns:SecurityServiceSoap12">
-      <soap12:address location="http://svr09/AutodeskDM/services/SecurityService.asmx" />
+      <soap12:address location="http://svr19/AutodeskDM/services/Securityservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

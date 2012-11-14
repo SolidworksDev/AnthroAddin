@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="http://svr09/AutodeskDM/services/SecurityService.asmx?wsdl" docRef="http://svr09/AutodeskDM/services/SecurityService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="http://svr09/AutodeskDM/services/SecurityService.asmx" xmlns:q1="http://AutodeskDM/Services/Security/1/26/2009/" binding="q1:SecurityServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-  <soap address="http://svr09/AutodeskDM/services/SecurityService.asmx" xmlns:q2="http://AutodeskDM/Services/Security/1/26/2009/" binding="q2:SecurityServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <contractRef ref="http://svr19/AutodeskDM/services/Securityservice.asmx?wsdl" docRef="http://svr19/AutodeskDM/services/Securityservice.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://svr19/AutodeskDM/services/Securityservice.asmx" xmlns:q1="http://AutodeskDM/Services/Security/1/20/2011/" binding="q1:SecurityServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://svr19/AutodeskDM/services/Securityservice.asmx" xmlns:q2="http://AutodeskDM/Services/Security/1/20/2011/" binding="q2:SecurityServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
 </discovery>

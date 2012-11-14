@@ -216,7 +216,7 @@ Public Class UpdateiPropertiesDialog
                 bytes = System.IO.File.ReadAllBytes(invDoc.FullDocumentName)
                 oDate = System.IO.File.GetLastAccessTime(invDoc.FullDocumentName)
                 serverLogin.docSvc.CheckinFile(vaultFile(0).MasterId, Me.txtComment.Text, False,
-                                                   oDate, dependentRefFileIds, dependentRefSources, Nothing, Nothing, Nothing, True,
+                                                   oDate, Nothing, Nothing, True,
                                                    vaultFile(0).Name, vaultFile(0).FileClass, vaultFile(0).Hidden, bytes)
 
                 info.IsReadOnly = False
@@ -228,7 +228,7 @@ Public Class UpdateiPropertiesDialog
                 bytes = System.IO.File.ReadAllBytes(invDoc.FullDocumentName)
                 oDate = System.IO.File.GetLastAccessTime(invDoc.FullDocumentName)
                 serverLogin.docSvc.CheckinFile(vaultFile(0).MasterId, Me.txtComment.Text, False,
-                                                   oDate, Nothing, Nothing, Nothing, Nothing, Nothing, True,
+                                                   oDate, Nothing, Nothing, True,
                                                    vaultFile(0).Name, vaultFile(0).FileClass, vaultFile(0).Hidden, bytes)
 
                 info.IsReadOnly = False

@@ -39,7 +39,7 @@
     <DefineTrace>true</DefineTrace>
     <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
     <DebugType>full</DebugType>
-    <RegisterForComInterop>true</RegisterForComInterop>
+    <RegisterForComInterop>false</RegisterForComInterop>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -51,7 +51,7 @@
     <Optimize>true</Optimize>
     <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
     <DebugType>none</DebugType>
-    <RegisterForComInterop>true</RegisterForComInterop>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -92,6 +92,7 @@
     <Reference Include="Autodesk.Inventor.Interop, Version=13.0.0.0, Culture=neutral, PublicKeyToken=d84147f8b4276564, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -111,6 +112,9 @@
     <Import Include="System.Security.Principal" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddinInstaller.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="AssemblyInfo.vb" />
     <Compile Include="CreatePlaceHolderComponentDialog.Designer.vb">
       <DependentUpon>CreatePlaceHolderComponentDialog.vb</DependentUpon>
@@ -192,12 +196,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="StandardAddInServer.vb" />
-    <Compile Include="Web References\Security\Reference.vb">
+    <Compile Include="Web References\DocumentSvc\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Web References\DocumentSvc\Reference.vb">
+    <Compile Include="Web References\Security\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -259,9 +263,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="ClassDiagram.cd" />
+    <None Include="AnthroAddin.X.manifest" />
     <None Include="SighKey\AnthroKey.snk" />
-    <None Include="Web References\Security\app.config" />
     <None Include="My Project\Folder.png" />
     <None Include="My Project\Settings.settings">
       <CustomToolNamespace>My</CustomToolNamespace>
@@ -277,10 +282,10 @@
     <None Include="Web References\DocumentSvc\BreakDesignVisualizationLinkCommandList1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\DocumentSvc\CompPropInfo1.datasource">
+    <None Include="Web References\DocumentSvc\CompProp1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\DocumentSvc\CtntSrc1.datasource">
+    <None Include="Web References\DocumentSvc\CtntSrcPropDef1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\DocumentSvc\DocRestric1.datasource">
@@ -289,6 +294,7 @@
     <None Include="Web References\DocumentSvc\DocRestricArray1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\DocumentSvc\Documentservice.wsdl" />
     <None Include="Web References\DocumentSvc\File1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -349,43 +355,42 @@
     <None Include="Web References\DocumentSvc\Label1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\DocumentSvc\Lnk1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\DocumentSvc\NumSchm1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\DocumentSvc\PropDef1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\DocumentSvc\PropGrp1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
     <None Include="Web References\DocumentSvc\PropInst1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\DocumentSvc\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
     <None Include="Web References\DocumentSvc\SrchStatus1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\Security\ACL1.datasource">
+    <None Include="Web References\Security\ACL.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\Security\EntsAndACLs1.datasource">
+    <None Include="Web References\Security\EntsAndACLs.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\Security\License1.datasource">
+    <None Include="Web References\Security\License.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\Security\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
-    <None Include="Web References\Security\SecRestric1.datasource">
+    <None Include="Web References\Security\SecRestric.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\Security\SecurityService.wsdl" />
-    <None Include="Web References\DocumentSvc\Documentservice.wsdl" />
-    <None Include="Web References\DocumentSvc\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.vb</LastGenOutput>
-    </None>
+    <None Include="Web References\Security\Securityservice.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\folder.ico" />
@@ -412,36 +417,6 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://svr09/AutodeskDM/services/Documentservice.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\DocumentSvc\</RelPath>
-      <UpdateFromURL>http://svr09/AutodeskDM/services/Documentservice.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>AnthroAddIn_svr09_DocumentService</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="http://svr09/AutodeskDM/services/SecurityService.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\Security\</RelPath>
-      <UpdateFromURL>http://svr09/AutodeskDM/services/SecurityService.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>AnthroAddIn_svr09_SecurityService</CachedSettingsPropName>
-    </WebReferenceUrl>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Web References\Security\SecurityService.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Web References\DocumentSvc\Documentservice.disco" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\iProperty.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -460,6 +435,8 @@
     <None Include="Resources\Draw.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Web References\Security\Securityservice.disco" />
+    <None Include="Web References\DocumentSvc\Documentservice.disco" />
     <None Include="Resources\TopArea.ico" />
     <None Include="Resources\SlotFeature.bmp" />
     <None Include="Resources\electricity.ico" />
@@ -471,13 +448,40 @@
     <None Include="Resources\BrowserSlotPNG.png" />
     <None Include="Resources\BrowserSlotPNG16.png" />
     <None Include="Resources\Component.ico" />
+    <Content Include="Autodesk.AnthroAddin.Inventor.addin" />
     <Content Include="Resources\edit.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://svr19/AutodeskDM/services/Documentservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\DocumentSvc\</RelPath>
+      <UpdateFromURL>http://svr19/AutodeskDM/services/Documentservice.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>AnthroAddIn_DocumentSrv_DocumentService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://svr19/AutodeskDM/services/Securityservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Security\</RelPath>
+      <UpdateFromURL>http://svr19/AutodeskDM/services/Securityservice.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>AnthroAddIn_Security_SecurityService</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>call "%25VS100COMNTOOLS%25vsvars32"
+			mt.exe -manifest "$(ProjectDir)AnthroAddin.X.manifest" -outputresource:"$(TargetPath)";#2
+
+xcopy /y "$(ProjectDir)Autodesk.AnthroAddin.Inventor.addin" "$(AppData)\Autodesk\Inventor 2013\Addins\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

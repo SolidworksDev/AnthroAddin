@@ -2,11 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
   <Profiles />
   <Settings>
-    <Setting Name="AnthroAddIn_svr09_DocumentService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://svr09/AutodeskDM/services/Documentservice.asmx</Value>
+    <Setting Name="AnthroAddIn_DocumentSrv_DocumentService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://svr19/AutodeskDM/services/Documentservice.asmx</Value>
     </Setting>
-    <Setting Name="AnthroAddIn_svr09_SecurityService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://svr09/AutodeskDM/services/SecurityService.asmx</Value>
+    <Setting Name="AnthroAddIn_Security_SecurityService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://svr19/AutodeskDM/services/Securityservice.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -9,7 +9,7 @@ Module globals
     Public bLeavingDrawSlotDlg As Boolean = False
     Public bSlotFeatureRunning As Boolean = False
     Public bLeavingSlotFeatureDlg As Boolean = False
-    Public Const HOST As String = "svr09"
+    Public Const HOST As String = "svr19"
     Public Const MAX_FILE_SIZE_BYTES As Integer = 49 * 1024 * 1024
     Public iFeatureCount As Integer = 0
     Public iCGCount As Integer = 0
