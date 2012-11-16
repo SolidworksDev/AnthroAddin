@@ -35,7 +35,7 @@ Namespace AnthroAddIn
     ' 
     '/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     <RunInstaller(True)> _
-    Public Class AddinInstaller1
+    Public Class AddinInstaller
         Inherits Installer
 
 #Region "Base Implementation"
