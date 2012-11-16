@@ -1058,5 +1058,5 @@ Public Class SlotFeatureDialog
         End Sub
     End Class
 
-    End Class
+End Class
 
