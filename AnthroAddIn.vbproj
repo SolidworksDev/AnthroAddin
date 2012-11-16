@@ -137,6 +137,7 @@
     <Compile Include="ExportDWFxfromAssemblyDialog.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="PictureDispConverter.vb" />
     <Compile Include="ProgressDialog.Designer.vb">
       <DependentUpon>ProgressDialog.vb</DependentUpon>
     </Compile>

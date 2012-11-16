@@ -111,17 +111,17 @@ Namespace AnthroAddIn
                     largeIconSize = 24
                 End If
 
-                Dim FolderPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.FileFolder, 16, 16))
-                Dim PrinterPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.printer, 16, 16))
-                Dim DXFPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.DXFIcon, 16, 16))
-                Dim iPropertyPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.iProperty, 16, 16))
-                Dim DWFxPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.DWF_Viewer, 16, 16))
-                Dim SlotFeaturePicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.SlotFeature, 24, 24))
-                Dim DrawLineArtPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.edit, 16, 16))
-                Dim DimensionPrecisionPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.fix, 16, 16))
-                Dim ComponentPlaceholderPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.Component, 16, 16))
-                Dim TopAreaPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.TopArea, 16, 16))
-                Dim DrawRectanglePicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.Draw, 16, 16))
+                Dim FolderPicture As IPictureDisp = PictureDispConverter.ToIPictureDisp(New Icon(My.Resources.FileFolder, 16, 16))
+                Dim PrinterPicture As IPictureDisp = PictureDispConverter.ToIPictureDisp(New Icon(My.Resources.printer, 16, 16))
+                Dim DXFPicture As IPictureDisp = PictureDispConverter.ToIPictureDisp(New Icon(My.Resources.DXFIcon, 16, 16))
+                Dim iPropertyPicture As IPictureDisp = PictureDispConverter.ToIPictureDisp(New Icon(My.Resources.iProperty, 16, 16))
+                Dim DWFxPicture As IPictureDisp = PictureDispConverter.ToIPictureDisp(New Icon(My.Resources.DWF_Viewer, 16, 16))                
+                Dim SlotFeaturePicture As IPictureDisp = PictureDispConverter.ToIPictureDisp(New Icon(My.Resources.SlotFeature, 16, 16))
+                Dim DrawLineArtPicture As IPictureDisp = PictureDispConverter.ToIPictureDisp(New Icon(My.Resources.edit, 16, 16))
+                Dim DimensionPrecisionPicture As IPictureDisp = PictureDispConverter.ToIPictureDisp(New Icon(My.Resources.fix, 16, 16))
+                Dim ComponentPlaceholderPicture As IPictureDisp = PictureDispConverter.ToIPictureDisp(New Icon(My.Resources.Component, 16, 16))
+                Dim TopAreaPicture As IPictureDisp = PictureDispConverter.ToIPictureDisp(New Icon(My.Resources.TopArea, 16, 16))
+                Dim DrawRectanglePicture As IPictureDisp = PictureDispConverter.ToIPictureDisp(New Icon(My.Resources.Draw, 16, 16))
 
                 m_moveFastenersToFolderButtonDef = controlDefs.AddButtonDefinition("Move Fasteners", _
                                         "MoveFastenersToFolder",

@@ -4,7 +4,7 @@
   <ClientId>{f3971a52-8202-4a82-82a2-77d7cdb707f9"}</ClientId>
   <DisplayName>AnthroAddin</DisplayName>
   <Description>Anthro Inventor Customizations</Description>
-  <Assembly>C:\Users\tclift\Documents\Inventor\AnthroAddin\AnthroAddin.dll</Assembly>  
+  <Assembly>C:\Program Files (x86)\Anthro\AnthroAddin.dll</Assembly>  
   <LoadOnStartUp>1</LoadOnStartUp>
   <UserUnloadable>1</UserUnloadable>
   <Hidden>0</Hidden>
