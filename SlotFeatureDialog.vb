@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Compatibility.VB6
 Imports System.Collections.Generic
 
 
+
 Public Class SlotFeatureDialog
 
     Public invApp As Inventor.Application
@@ -62,7 +63,7 @@ Public Class SlotFeatureDialog
             iFeatureCount += 1
             Dim strSlotName As String = "Slot" + iFeatureCount.ToString
            
-            SlotFeaturePicture = ImageToIPictureDisp(My.Resources.BrowserSlotPNG)
+            SlotFeaturePicture = AnthroAddIn.PictureDispConverter.ToIPictureDisp(My.Resources.BrowserSlotPNG)
 
             invClientNodeResource = invPartDoc.BrowserPanes.ClientNodeResources.Add(strSlotName, 1, Nothing)
 
