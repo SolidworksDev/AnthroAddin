@@ -448,7 +448,9 @@
     <None Include="Resources\BrowserSlotPNG.png" />
     <None Include="Resources\BrowserSlotPNG16.png" />
     <None Include="Resources\Component.ico" />
-    <Content Include="Autodesk.AnthroAddin.Inventor.addin" />
+    <Content Include="Autodesk.AnthroAddin.Inventor.addin">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Resources\edit.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -482,6 +484,8 @@
     <PostBuildEvent>call "%25VS100COMNTOOLS%25vsvars32"
 			mt.exe -manifest "$(ProjectDir)AnthroAddin.X.manifest" -outputresource:"$(TargetPath)";#2
 
-xcopy /y "$(ProjectDir)Autodesk.AnthroAddin.Inventor.addin" "$(AppData)\Autodesk\Inventor 2013\Addins\"</PostBuildEvent>
+xcopy /y "$(ProjectDir)Autodesk.AnthroAddin.Inventor.addin" "$(AppData)\Autodesk\Inventor 2013\Addins\"
+
+xcopy /y "$(ProjectDir)\bin\Debug\AnthroAddin.dll" "C:\Users\tclift\Documents\Inventor\AnthroAddin"</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -116,7 +116,7 @@ Namespace AnthroAddIn
                 Dim DXFPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.DXFIcon, 16, 16))
                 Dim iPropertyPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.iProperty, 16, 16))
                 Dim DWFxPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.DWF_Viewer, 16, 16))
-                Dim SlotFeaturePicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.SlotFeature, 16, 16))
+                Dim SlotFeaturePicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.SlotFeature, 24, 24))
                 Dim DrawLineArtPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.edit, 16, 16))
                 Dim DimensionPrecisionPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.fix, 16, 16))
                 Dim ComponentPlaceholderPicture As IPictureDisp = IconToIPicture(New Icon(My.Resources.Component, 16, 16))
@@ -1154,7 +1154,7 @@ Namespace AnthroAddIn
 
         Private Sub m_userInterfaceEvents_OnEnvironmentChange(ByVal Environment As Inventor.Environment, ByVal EnvironmentState As Inventor.EnvironmentStateEnum, ByVal BeforeOrAfter As Inventor.EventTimingEnum, ByVal Context As Inventor.NameValueMap, ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles m_userInterfaceEvents.OnEnvironmentChange
 
-            If BeforeOrAfter = EventTimingEnum.kAfter Then                
+            If BeforeOrAfter = EventTimingEnum.kAfter And m_inventorApplication.ActiveDocumentType = DocumentTypeEnum.kPartDocumentObject Then
                 If Environment.DisplayName = "2D Sketch" Then
                     If EnvironmentState = EnvironmentStateEnum.kTerminateEnvironmentState Then
                         Dim oActiveDoc As PartDocument = m_inventorApplication.ActiveDocument
@@ -1172,7 +1172,7 @@ Namespace AnthroAddIn
 
         Private Sub m_sketchEvents_OnDelete(ByVal DocumentObject As Inventor._Document, ByVal Entity As Object, ByVal BeforeOrAfter As Inventor.EventTimingEnum, ByVal Context As Inventor.NameValueMap, ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles m_sketchEvents.OnDelete
 
-            If BeforeOrAfter = EventTimingEnum.kAfter Then
+            If BeforeOrAfter = EventTimingEnum.kAfter And m_inventorApplication.ActiveDocumentType = DocumentTypeEnum.kPartDocumentObject Then
                 Dim oActiveDoc As PartDocument = DocumentObject
                 Dim oPartCompDef As PartComponentDefinition = oActiveDoc.ComponentDefinition
                 If oPartCompDef.Sketches.Count = 1 And oPartCompDef.Features.Count = 0 Then
@@ -1186,7 +1186,7 @@ Namespace AnthroAddIn
 
         Private Sub m_sketchEvents_OnSketchChange(ByVal DocumentObject As Inventor._Document, ByVal Sketch As Inventor.Sketch, ByVal BeforeOrAfter As Inventor.EventTimingEnum, ByVal Context As Inventor.NameValueMap, ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles m_sketchEvents.OnSketchChange
 
-            If BeforeOrAfter = EventTimingEnum.kAfter Then
+            If BeforeOrAfter = EventTimingEnum.kAfter And m_inventorApplication.ActiveDocumentType = DocumentTypeEnum.kPartDocumentObject Then
                 Dim oActiveDoc As PartDocument = DocumentObject
                 Dim oPartCompDef As PartComponentDefinition = oActiveDoc.ComponentDefinition
                 If oPartCompDef.Sketches.Count = 1 And oPartCompDef.Features.Count = 0 Then
@@ -1200,7 +1200,7 @@ Namespace AnthroAddIn
 
         Private Sub m_transactionEvents_OnUndo(ByVal TransactionObject As Inventor.Transaction, ByVal Context As Inventor.NameValueMap, ByVal BeforeOrAfter As Inventor.EventTimingEnum, ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles m_transactionEvents.OnUndo
 
-            If BeforeOrAfter = EventTimingEnum.kAfter Then
+            If BeforeOrAfter = EventTimingEnum.kAfter And m_inventorApplication.ActiveDocumentType = DocumentTypeEnum.kPartDocumentObject Then
                 Dim oActiveDoc As PartDocument = m_inventorApplication.ActiveDocument
                 Dim oPartCompDef As PartComponentDefinition = oActiveDoc.ComponentDefinition
                 If oPartCompDef.Sketches.Count = 1 And oPartCompDef.Features.Count = 0 Then
@@ -1214,7 +1214,7 @@ Namespace AnthroAddIn
 
         Private Sub m_applicationEvents_OnDocumentChange(ByVal DocumentObject As Inventor._Document, ByVal BeforeOrAfter As Inventor.EventTimingEnum, ByVal ReasonsForChange As Inventor.CommandTypesEnum, ByVal Context As Inventor.NameValueMap, ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles m_applicationEvents.OnDocumentChange
 
-            If BeforeOrAfter = EventTimingEnum.kAfter Then
+            If BeforeOrAfter = EventTimingEnum.kAfter And m_inventorApplication.ActiveDocumentType = DocumentTypeEnum.kPartDocumentObject Then
                 Dim oActiveDoc As PartDocument = m_inventorApplication.ActiveDocument
                 Dim oPartCompDef As PartComponentDefinition = oActiveDoc.ComponentDefinition
                 If oPartCompDef.Sketches.Count = 1 And oPartCompDef.Features.Count = 0 Then
