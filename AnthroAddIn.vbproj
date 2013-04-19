@@ -29,7 +29,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -38,12 +39,12 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
-    <DebugType>full</DebugType>
+    <DebugType>Full</DebugType>
     <RegisterForComInterop>false</RegisterForComInterop>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>obj\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>.xml</DocumentationFile>
     <DebugSymbols>false</DebugSymbols>
     <DefineDebug>false</DefineDebug>

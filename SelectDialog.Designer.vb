@@ -26,8 +26,8 @@ Partial Class SelectDialog
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.btnAccept = New System.Windows.Forms.Button()
         Me.btnCancel = New System.Windows.Forms.Button()
-        Me.rbtnPrint = New System.Windows.Forms.RadioButton()
-        Me.rbtnExport = New System.Windows.Forms.RadioButton()
+        Me.chkPrint = New System.Windows.Forms.CheckBox()
+        Me.chkExport = New System.Windows.Forms.CheckBox()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -63,35 +63,35 @@ Partial Class SelectDialog
         Me.btnCancel.Text = "Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
-        'rbtnPrint
+        'chkPrint
         '
-        Me.rbtnPrint.AutoSize = True
-        Me.rbtnPrint.Checked = True
-        Me.rbtnPrint.Location = New System.Drawing.Point(12, 335)
-        Me.rbtnPrint.Name = "rbtnPrint"
-        Me.rbtnPrint.Size = New System.Drawing.Size(46, 17)
-        Me.rbtnPrint.TabIndex = 4
-        Me.rbtnPrint.TabStop = True
-        Me.rbtnPrint.Text = "Print"
-        Me.rbtnPrint.UseVisualStyleBackColor = True
+        Me.chkPrint.AutoSize = True
+        Me.chkPrint.Checked = True
+        Me.chkPrint.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkPrint.Location = New System.Drawing.Point(12, 329)
+        Me.chkPrint.Name = "chkPrint"
+        Me.chkPrint.Size = New System.Drawing.Size(47, 17)
+        Me.chkPrint.TabIndex = 6
+        Me.chkPrint.Text = "Print"
+        Me.chkPrint.UseVisualStyleBackColor = True
         '
-        'rbtnExport
+        'chkExport
         '
-        Me.rbtnExport.AutoSize = True
-        Me.rbtnExport.Location = New System.Drawing.Point(12, 358)
-        Me.rbtnExport.Name = "rbtnExport"
-        Me.rbtnExport.Size = New System.Drawing.Size(55, 17)
-        Me.rbtnExport.TabIndex = 5
-        Me.rbtnExport.Text = "Export"
-        Me.rbtnExport.UseVisualStyleBackColor = True
+        Me.chkExport.AutoSize = True
+        Me.chkExport.Location = New System.Drawing.Point(12, 352)
+        Me.chkExport.Name = "chkExport"
+        Me.chkExport.Size = New System.Drawing.Size(56, 17)
+        Me.chkExport.TabIndex = 7
+        Me.chkExport.Text = "Export"
+        Me.chkExport.UseVisualStyleBackColor = True
         '
         'SelectDialog
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(259, 387)
-        Me.Controls.Add(Me.rbtnExport)
-        Me.Controls.Add(Me.rbtnPrint)
+        Me.Controls.Add(Me.chkExport)
+        Me.Controls.Add(Me.chkPrint)
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -108,6 +108,6 @@ Partial Class SelectDialog
     Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents btnAccept As System.Windows.Forms.Button
     Friend WithEvents btnCancel As System.Windows.Forms.Button
-    Friend WithEvents rbtnPrint As System.Windows.Forms.RadioButton
-    Friend WithEvents rbtnExport As System.Windows.Forms.RadioButton
+    Friend WithEvents chkPrint As System.Windows.Forms.CheckBox
+    Friend WithEvents chkExport As System.Windows.Forms.CheckBox
 End Class

@@ -41,7 +41,7 @@ Public Class SelectDialog
             newList.CheckOnClick = True
 
             newLable.Name = "DocumentsListDialogLable"
-            newLable.Text = "Select Drawings to Print"
+            newLable.Text = "Select Drawings to Print/Export"
             newLable.Width = 225
             newLable.Location = LablePosition
 
@@ -99,24 +99,38 @@ Public Class SelectDialog
             End If
         Next
 
-       
+        If chkPrint.Checked = False And chkExport.Checked = False Then
+            MsgBox("You muse select at lease" & Chr(13) & "one part from the list", MsgBoxStyle.Critical, "Select a part")
+            Me.Visible = True
+            Exit Sub
+        End If
 
-        If rbtnExport.Checked Then
+        If chkPrint.Checked And chkExport.Checked Then
             verifyForm.VerifyDialog_AddListBox(drawingList, DrawingListcontrols, _
                                               "DrawingsListDialogLable",
-                                              "Export the following drawings?",
+                                              "Print and Export the following drawings?",
                                               "DrawingsListBox",
                                               "Select Drawings")
-            verifyForm.Text = "Verify Export DWFx"
-            verifyForm.Icon = My.Resources.DWF_Viewer
-        Else
-            verifyForm.VerifyDialog_AddListBox(drawingList, DrawingListcontrols, _
-                                              "DrawingsListDialogLable",
-                                              "Print the following drawings?",
-                                              "DrawingsListBox",
-                                              "Select Drawings")
-            verifyForm.Text = "Veriry Print Drawings"
+            verifyForm.Text = "Veriry Print and Export Drawings"
             verifyForm.Icon = My.Resources.printer
+        Else
+            If chkPrint.Checked Then
+                verifyForm.VerifyDialog_AddListBox(drawingList, DrawingListcontrols, _
+                                                  "DrawingsListDialogLable",
+                                                  "Print the following drawings?",
+                                                  "DrawingsListBox",
+                                                  "Select Drawings")
+                verifyForm.Text = "Verify Print Drawings"
+                verifyForm.Icon = My.Resources.printer
+            Else
+                verifyForm.VerifyDialog_AddListBox(drawingList, DrawingListcontrols, _
+                                                  "DrawingsListDialogLable",
+                                                  "Print the following drawings?",
+                                                  "DrawingsListBox",
+                                                  "Select Drawings")
+                verifyForm.Text = "Veriry Export DWFx"
+                verifyForm.Icon = My.Resources.DWF_Viewer
+            End If
         End If
 
         verifyForm.ShowDialog()
@@ -125,9 +139,10 @@ Public Class SelectDialog
             For i = 1 To invDocs.Count
                 For j = 0 To drawingList.Count - 1
                     If invDocs.Item(i).DisplayName = drawingList.Item(j).ToString And invDocs.Item(i).DocumentType = DocumentTypeEnum.kDrawingDocumentObject Then
-                        If rbtnExport.Checked = True Then
+                        If chkExport.Checked = True Then
                             invDocs.Item(i).SaveAs(exportPath & drawingList(j).ToString & ".dwfx", True)
-                        Else
+                        End If
+                        If chkPrint.Checked = True Then
                             invDocs.Item(i).PrintManager.SubmitPrint()
                         End If
                     End If
@@ -156,12 +171,16 @@ Public Class SelectDialog
 
     
 
-    Private Sub rbtnExport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles rbtnExport.Click
+    Private Sub chkExport_Click(ByVal sender As Object, ByVal e As System.EventArgs)
 
         For Each aControl In Me.Controls
             If TypeName(aControl) = "Label" Then
                 If CType(aControl, System.Windows.Forms.Label).Name.ToString = "DocumentsListDialogLable" Then
-                    CType(aControl, System.Windows.Forms.Label).Text = "Select Drawings to Export"
+                    If chkExport.Checked And chkPrint.Checked Then
+                        CType(aControl, System.Windows.Forms.Label).Text = "Select Drawings to Print and Export"
+                    Else
+                        CType(aControl, System.Windows.Forms.Label).Text = "Select Drawings to Export"
+                    End If
                     Exit For
                 End If
             End If
@@ -171,12 +190,16 @@ Public Class SelectDialog
 
     End Sub
 
-    Private Sub rbtnPrint_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles rbtnPrint.Click
+    Private Sub chkPrint_Click(ByVal sender As Object, ByVal e As System.EventArgs)
 
         For Each aControl In Me.Controls
             If TypeName(aControl) = "Label" Then
                 If CType(aControl, System.Windows.Forms.Label).Name.ToString = "DocumentsListDialogLable" Then
-                    CType(aControl, System.Windows.Forms.Label).Text = "Select Drawings to Print"
+                    If chkPrint.Checked And chkExport.Checked Then
+                        CType(aControl, System.Windows.Forms.Label).Text = "Select Drawings to Print and Export"
+                    Else
+                        CType(aControl, System.Windows.Forms.Label).Text = "Select Drawings to Print"
+                    End If
                     Exit For
                 End If
             End If
