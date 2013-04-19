@@ -30,16 +30,14 @@ Partial Class UpdateiPropertiesDialog
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtBxApprovedBy = New System.Windows.Forms.TextBox()
-        Me.txtBxRevision = New System.Windows.Forms.TextBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.CommentLable = New System.Windows.Forms.Label()
-        Me.txtComment = New System.Windows.Forms.TextBox()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.SelectAll = New System.Windows.Forms.CheckBox()
         Me.ShowUnApproved = New System.Windows.Forms.CheckBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -49,7 +47,7 @@ Partial Class UpdateiPropertiesDialog
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.btnCancel, 1, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.btnAccept, 0, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(107, 370)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(95, 26)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -78,21 +76,15 @@ Partial Class UpdateiPropertiesDialog
         'TableLayoutPanel2
         '
         Me.TableLayoutPanel2.ColumnCount = 2
-        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.35408!))
-        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.64592!))
-        Me.TableLayoutPanel2.Controls.Add(Me.Label1, 0, 0)
+        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.1284!))
+        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.8716!))
         Me.TableLayoutPanel2.Controls.Add(Me.txtBxApprovedBy, 1, 0)
-        Me.TableLayoutPanel2.Controls.Add(Me.txtBxRevision, 1, 1)
-        Me.TableLayoutPanel2.Controls.Add(Me.Label2, 0, 1)
-        Me.TableLayoutPanel2.Controls.Add(Me.CommentLable, 0, 2)
-        Me.TableLayoutPanel2.Controls.Add(Me.txtComment, 1, 2)
+        Me.TableLayoutPanel2.Controls.Add(Me.Label1, 0, 0)
         Me.TableLayoutPanel2.Location = New System.Drawing.Point(12, 12)
         Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
-        Me.TableLayoutPanel2.RowCount = 3
+        Me.TableLayoutPanel2.RowCount = 1
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33.0!))
-        Me.TableLayoutPanel2.Size = New System.Drawing.Size(257, 93)
+        Me.TableLayoutPanel2.Size = New System.Drawing.Size(257, 32)
         Me.TableLayoutPanel2.TabIndex = 2
         '
         'Label1
@@ -106,44 +98,11 @@ Partial Class UpdateiPropertiesDialog
         '
         'txtBxApprovedBy
         '
-        Me.txtBxApprovedBy.Location = New System.Drawing.Point(98, 3)
+        Me.txtBxApprovedBy.Location = New System.Drawing.Point(82, 3)
         Me.txtBxApprovedBy.Name = "txtBxApprovedBy"
-        Me.txtBxApprovedBy.Size = New System.Drawing.Size(130, 20)
+        Me.txtBxApprovedBy.Size = New System.Drawing.Size(148, 20)
         Me.txtBxApprovedBy.TabIndex = 2
         Me.txtBxApprovedBy.Text = "jtm"
-        '
-        'txtBxRevision
-        '
-        Me.txtBxRevision.Location = New System.Drawing.Point(98, 33)
-        Me.txtBxRevision.Name = "txtBxRevision"
-        Me.txtBxRevision.Size = New System.Drawing.Size(130, 20)
-        Me.txtBxRevision.TabIndex = 3
-        Me.txtBxRevision.Text = "-"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(3, 30)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(51, 13)
-        Me.Label2.TabIndex = 1
-        Me.Label2.Text = "Revision:"
-        '
-        'CommentLable
-        '
-        Me.CommentLable.AutoSize = True
-        Me.CommentLable.Location = New System.Drawing.Point(3, 60)
-        Me.CommentLable.Name = "CommentLable"
-        Me.CommentLable.Size = New System.Drawing.Size(54, 13)
-        Me.CommentLable.TabIndex = 4
-        Me.CommentLable.Text = "Comment:"
-        '
-        'txtComment
-        '
-        Me.txtComment.Location = New System.Drawing.Point(98, 63)
-        Me.txtComment.Name = "txtComment"
-        Me.txtComment.Size = New System.Drawing.Size(130, 20)
-        Me.txtComment.TabIndex = 5
         '
         'ErrorProvider1
         '
@@ -152,7 +111,7 @@ Partial Class UpdateiPropertiesDialog
         'SelectAll
         '
         Me.SelectAll.AutoSize = True
-        Me.SelectAll.Location = New System.Drawing.Point(15, 380)
+        Me.SelectAll.Location = New System.Drawing.Point(3, 26)
         Me.SelectAll.Name = "SelectAll"
         Me.SelectAll.Size = New System.Drawing.Size(69, 17)
         Me.SelectAll.TabIndex = 3
@@ -162,12 +121,22 @@ Partial Class UpdateiPropertiesDialog
         'ShowUnApproved
         '
         Me.ShowUnApproved.AutoSize = True
-        Me.ShowUnApproved.Location = New System.Drawing.Point(15, 350)
+        Me.ShowUnApproved.Location = New System.Drawing.Point(3, 3)
         Me.ShowUnApproved.Name = "ShowUnApproved"
         Me.ShowUnApproved.Size = New System.Drawing.Size(139, 17)
         Me.ShowUnApproved.TabIndex = 4
         Me.ShowUnApproved.Text = "Show Unapproved Only"
         Me.ShowUnApproved.UseVisualStyleBackColor = True
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.ShowUnApproved)
+        Me.Panel1.Controls.Add(Me.TableLayoutPanel1)
+        Me.Panel1.Controls.Add(Me.SelectAll)
+        Me.Panel1.Location = New System.Drawing.Point(12, 335)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(263, 60)
+        Me.Panel1.TabIndex = 5
         '
         'UpdateiPropertiesDialog
         '
@@ -175,10 +144,8 @@ Partial Class UpdateiPropertiesDialog
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CausesValidation = False
         Me.ClientSize = New System.Drawing.Size(284, 407)
-        Me.Controls.Add(Me.ShowUnApproved)
-        Me.Controls.Add(Me.SelectAll)
+        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.TableLayoutPanel2)
-        Me.Controls.Add(Me.TableLayoutPanel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
@@ -190,8 +157,9 @@ Partial Class UpdateiPropertiesDialog
         Me.TableLayoutPanel2.ResumeLayout(False)
         Me.TableLayoutPanel2.PerformLayout()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
@@ -199,12 +167,9 @@ Partial Class UpdateiPropertiesDialog
     Friend WithEvents btnCancel As System.Windows.Forms.Button
     Friend WithEvents TableLayoutPanel2 As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents txtBxApprovedBy As System.Windows.Forms.TextBox
-    Friend WithEvents txtBxRevision As System.Windows.Forms.TextBox
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
     Friend WithEvents SelectAll As System.Windows.Forms.CheckBox
-    Friend WithEvents CommentLable As System.Windows.Forms.Label
-    Friend WithEvents txtComment As System.Windows.Forms.TextBox
     Friend WithEvents ShowUnApproved As System.Windows.Forms.CheckBox
+    Friend WithEvents txtBxApprovedBy As System.Windows.Forms.TextBox
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
 End Class

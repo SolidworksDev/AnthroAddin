@@ -29,11 +29,11 @@ Public Class UpdateiPropertiesDialog
 
             Dim LablePosition As System.Drawing.Point
             LablePosition.X = 12
-            LablePosition.Y = 103
+            LablePosition.Y = 45
 
             Dim ListPosition As System.Drawing.Point
             ListPosition.X = 12
-            ListPosition.Y = 128
+            ListPosition.Y = 70
 
             Dim newList As New CheckedListBox
             Dim newLable As New System.Windows.Forms.Label
@@ -50,7 +50,7 @@ Public Class UpdateiPropertiesDialog
             newList.Text = "Select Documents"
             newList.Name = "DocumentsListBox"
             newList.Width = 260
-            newList.Height = 220
+            newList.Height = 270
             newList.Location = ListPosition
 
             Dim invAsmDoc As AssemblyDocument
@@ -138,7 +138,7 @@ Public Class UpdateiPropertiesDialog
 
         ' If the Revision Value is a numeric value of is an empty string change it to "-"
         If Integer.TryParse(oPartRevisionProp.Value.ToString, x) Or oPartRevisionProp.Value.ToString = "" Then
-            oPartRevisionProp.Value = Me.txtBxRevision.Text
+            oPartRevisionProp.Value = "-"
         End If
 
     End Sub
@@ -215,7 +215,7 @@ Public Class UpdateiPropertiesDialog
 
                 bytes = System.IO.File.ReadAllBytes(invDoc.FullDocumentName)
                 oDate = System.IO.File.GetLastAccessTime(invDoc.FullDocumentName)
-                serverLogin.docSvc.CheckinFile(vaultFile(0).MasterId, Me.txtComment.Text, False,
+                serverLogin.docSvc.CheckinFile(vaultFile(0).MasterId, "Drawing Approval", False,
                                                    oDate, Nothing, Nothing, True,
                                                    vaultFile(0).Name, vaultFile(0).FileClass, vaultFile(0).Hidden, bytes)
 
@@ -227,7 +227,7 @@ Public Class UpdateiPropertiesDialog
 
                 bytes = System.IO.File.ReadAllBytes(invDoc.FullDocumentName)
                 oDate = System.IO.File.GetLastAccessTime(invDoc.FullDocumentName)
-                serverLogin.docSvc.CheckinFile(vaultFile(0).MasterId, Me.txtComment.Text, False,
+                serverLogin.docSvc.CheckinFile(vaultFile(0).MasterId, "Drawing Approval", False,
                                                    oDate, Nothing, Nothing, True,
                                                    vaultFile(0).Name, vaultFile(0).FileClass, vaultFile(0).Hidden, bytes)
 
@@ -458,45 +458,6 @@ Public Class UpdateiPropertiesDialog
                     End If
                 End If
             Next
-
-        Catch ex As Exception
-            MessageBox.Show(ex.ToString)
-        End Try
-
-    End Sub
-
-    Private Sub txtComment_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtComment.Validating
-
-        Try
-
-            If bLeaveiPropDlg = True Then
-                e.Cancel = False
-                Exit Sub
-            End If
-
-            If Me.txtComment.Text = "" Then
-                ErrorProvider1.SetError(txtComment, "You must input a comment")
-                e.Cancel = True
-            Else
-                ErrorProvider1.SetError(txtComment, "")
-            End If
-
-        Catch ex As Exception
-            MessageBox.Show(ex.ToString)
-        End Try
-
-    End Sub
-
-    Private Sub txtBxRevision_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtBxRevision.Validating
-
-        Try
-
-            If Not AllNumbersDashOrLetters(Me.txtBxRevision.Text) Then
-                ErrorProvider1.SetError(txtBxRevision, "You must input a valid revision")
-                e.Cancel = True
-            Else
-                ErrorProvider1.SetError(txtBxRevision, "")
-            End If
 
         Catch ex As Exception
             MessageBox.Show(ex.ToString)
