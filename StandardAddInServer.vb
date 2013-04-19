@@ -66,7 +66,7 @@ Namespace AnthroAddIn
         Private iPartsDialogWidth As Integer = 250
         Private iPartsDialogHeight As Integer = 400
         ' Print Drawing dialog sizes
-        Private iPrintDrawingsfromAssemblyDialogWidth As Integer = 250
+        Private iPrintDrawingsfromAssemblyDialogWidth As Integer = 270
         Private iPrintDrawingsfromAssemblyDialogHeight As Integer = 435
         ' export DWFx dialog sizes
         Private iExportDWFxfromAssemblyDialogWidth As Integer = 250
@@ -388,67 +388,7 @@ Namespace AnthroAddIn
 #End Region
 
 #Region "COM Registration"
-
-        '' Registers this class as an AddIn for Inventor.
-        '' This function is called when the assembly is registered for COM.
-        '<ComRegisterFunctionAttribute()> _
-        'Public Shared Sub Register(ByVal t As Type)
-
-        '    Dim clssRoot As RegistryKey = Registry.ClassesRoot
-        '    Dim clsid As RegistryKey = Nothing
-        '    Dim subKey As RegistryKey = Nothing
-
-        '    Try
-
-        '        clsid = clssRoot.CreateSubKey("CLSID\" + AddInGuid(t))
-        '        clsid.SetValue(Nothing, "Anthro Customizations")
-        '        subKey = clsid.CreateSubKey("Implemented Categories\{39AD2B5C-7A29-11D6-8E0A-0010B541CAA8}")
-        '        subKey.Close()
-
-        '        subKey = clsid.CreateSubKey("Settings")
-        '        subKey.SetValue("AddInType", "Standard")
-        '        subKey.SetValue("LoadOnStartUp", "1")
-        '        subKey.SetValue("SupportedSoftwareVersionGreaterThan", "13..")
-        '        subKey.SetValue("Version", "0.9.99")
-        '        subKey.Close()
-
-        '        subKey = clsid.CreateSubKey("Description")
-        '        subKey.SetValue(Nothing, "Testing the addin")
-
-        '    Catch ex As Exception
-        '        System.Diagnostics.Trace.Assert(False)
-        '    Finally
-        '        If Not subKey Is Nothing Then subKey.Close()
-        '        If Not clsid Is Nothing Then clsid.Close()
-        '        If Not clssRoot Is Nothing Then clssRoot.Close()
-        '    End Try
-
-        'End Sub
-
-        '' Unregisters this class as an AddIn for Inventor.
-        '' This function is called when the assembly is unregistered.
-        '<ComUnregisterFunctionAttribute()> _
-        'Public Shared Sub Unregister(ByVal t As Type)
-
-        '    Dim clssRoot As RegistryKey = Registry.ClassesRoot
-        '    Dim clsid As RegistryKey = Nothing
-
-        '    Try
-        '        clssRoot = Microsoft.Win32.Registry.ClassesRoot
-        '        clsid = clssRoot.OpenSubKey("CLSID\" + AddInGuid(t), True)
-        '        clsid.SetValue(Nothing, "")
-        '        clsid.DeleteSubKeyTree("Implemented Categories\{39AD2B5C-7A29-11D6-8E0A-0010B541CAA8}")
-        '        clsid.DeleteSubKeyTree("Settings")
-        '        clsid.DeleteSubKeyTree("Description")
-        '    Catch
-        '    Finally
-        '        If Not clsid Is Nothing Then clsid.Close()
-        '        If Not clssRoot Is Nothing Then clssRoot.Close()
-        '    End Try
-
-        'End Sub
-
-        ' This property uses reflection to get the value for the GuidAttribute attached to the class.
+        
         Public Shared ReadOnly Property AddInGuid(ByVal t As Type) As String
             Get
                 Dim guid As String = ""
@@ -590,7 +530,7 @@ Namespace AnthroAddIn
                 PrintRadioButtionPosition.Y = iPrintDrawingsfromAssemblyDialogHeight - 110
 
                 Dim SelectUnauthroizedButtonPosition As System.Drawing.Point
-                SelectUnauthroizedButtonPosition.X = 105
+                SelectUnauthroizedButtonPosition.X = 115
                 SelectUnauthroizedButtonPosition.Y = iPrintDrawingsfromAssemblyDialogHeight - 90
 
                 printDrawingsfromAssemblyDialog.DrawingsDialog_AddListBox(DrawingsListControls)
