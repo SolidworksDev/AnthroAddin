@@ -117,6 +117,9 @@ Public Class ExportDWFxfromAssemblyDialog
         Dim strRefFiles() As String = {}
         Dim strFolders() As String = {}
         Dim strLocalPath() As String = {}
+        Dim strDrawingFileName As String
+        Dim bFileExists As Boolean
+        Dim UnsavedDrawing As DrawingDocument
         Dim verifyForm As New VerifyForm
         Dim DrawingListcontrols As Control.ControlCollection = verifyForm.DrawingListFormControls
 
@@ -224,11 +227,24 @@ Public Class ExportDWFxfromAssemblyDialog
                 'Iterate through all the files downloaded and open them as visable in Inventor
                 'This is needed because Inventor won't print a drawing file unless it is visable
                 For i = 0 To drawingsList.Count - 1
-                    If (Not FileInUse(drawingsList.Item(i).GetDrawingPathName())) Then
-                        invDrawingDoc = invDocs.Open(drawingsList.Item(i).GetDrawingPathName())
-                        invDrawingDoc.SaveAs(exportPath & invDrawingDoc.DisplayName & ".dwfx", True)
-                        invDrawingDoc.Close()
+                    strDrawingFileName = drawingsList.Item(i).GetDrawingPathName()
+                    bFileExists = FileInUse(strDrawingFileName)
+                    If (bFileExists = False) Then
+                        'This code fixes a bug that occurs when the user has a drawing that is open and has not been saved when exporting a .dwfx
+                        For j = 1 To invDocs.Count
+                            If drawingsList.Item(i).GetRefFile() = invDocs.Item(j).DisplayName() _
+                                And invDocs.Item(j).DocumentType = DocumentTypeEnum.kDrawingDocumentObject Then
+                                UnsavedDrawing = invDocs.Item(j)
+                                UnsavedDrawing.SaveAs(strDrawingFileName, False)
+                                MessageBox.Show("File " & UnsavedDrawing.DisplayName & ".idw" & Chr(13) & _
+                                        " has been saved. Please check the file into Valut", "File Saved", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            End If
+                        Next
                     End If
+                    invDrawingDoc = invDocs.Open(strDrawingFileName)
+                    invDrawingDoc.SaveAs(exportPath & invDrawingDoc.DisplayName & ".dwfx", True)
+                    invDrawingDoc.Close()
+
                 Next
 
                 invApp.SilentOperation = bCurrentSettings
@@ -309,7 +325,6 @@ Public Class ExportDWFxfromAssemblyDialog
         End If
         Return thisFileInUse
     End Function
-
 
 End Class
 
