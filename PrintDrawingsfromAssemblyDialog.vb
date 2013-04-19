@@ -50,7 +50,7 @@ Public Class printDrawingsfromAssemblyDialog
 
             newList.Text = "Select Drawings"
             newList.Name = "DrawingsListBox"
-            newList.Width = 225
+            newList.Width = 245
             newList.Height = 280
             newList.Location = ListPosition
 
