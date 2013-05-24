@@ -32,6 +32,10 @@ Module globals
 
     Public Function IsDoc(ByVal strDocName As String) As Boolean
 
+        If strDocName.Length <= 3 Then
+            Return False
+        End If
+
         Dim strFirstThreeChr As String
         strFirstThreeChr = strDocName.Substring(0, 4)
         Dim strFirstTwoChr As String

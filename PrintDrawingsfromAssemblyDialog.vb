@@ -168,7 +168,11 @@ Public Class printDrawingsfromAssemblyDialog
             'The downloadFile has a path approprate for writing the files to disk
             For i = 0 To drawingList.DrawingName.Count - 1
                 For j = 1 To invDocs.Count
-                    If invDocs.Item(j).DisplayName = drawingList.DrawingName.Item(i).ToString Then
+                    If Not invDocs.Item(j).DocumentType = DocumentTypeEnum.kDrawingDocumentObject And invDocs.Item(j).FullFileName = "" Then
+                        MessageBox.Show("The file " & invDocs.Item(j).DisplayName & "has not been saved and will not be printed", "File Not Saved", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit For
+                    End If
+                    If invDocs.Item(j).DisplayName = drawingList.DrawingName.Item(i).ToString And Not invDocs.Item(j).FullFileName = Nothing Then
                         Dim strTmp As String = ""
                         Dim length As Integer
                         strTmp = invDocs.Item(j).FullFileName.Replace("C:\_Vault_Working_Folder", "$").Replace("\", "/")
