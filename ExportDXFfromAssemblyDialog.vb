@@ -17,6 +17,10 @@ Public Class ExportDXFfromAssemblyDialog
 
     Public Function IsSheetMetal(ByVal strPartName As String) As Boolean
 
+        If strPartName.Length <= 3 Then
+            Return False
+        End If
+
         Dim strFirstFourChr As String
         strFirstFourChr = strPartName.Substring(0, 4)
         Dim strFirstTwoChr As String

@@ -61,6 +61,8 @@ Module globals
             IsDoc = True
         ElseIf strFirstTwoChr = "VT" Then
             IsDoc = True
+        ElseIf strFirstTwoChr = "BT" Then
+            IsDoc = True
         Else
             IsDoc = False
         End If
@@ -145,12 +147,24 @@ Module globals
         oPropSet = oPropSets.Item("Design Tracking Properties")
         oPartAuthorityProp = oPropSet.Item("Authority")
 
-        If oPartAuthorityProp.Value = "" Then
+        If oPartAuthorityProp.Value = "" Or oPartAuthorityProp.Value = "AUTHORITY" Then
             Return False
         Else
             Return True
         End If
 
+    End Function
+
+    Public Function RemoveExt(ByVal DocName As String) As String
+        Dim NoExt As String
+
+        If InStr(".", DocName) Then
+            NoExt = DocName.Remove(DocName.Length - 4)
+        Else
+            NoExt = DocName
+        End If
+
+        Return NoExt
     End Function
 
 End Module

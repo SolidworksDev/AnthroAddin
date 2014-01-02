@@ -2,7 +2,6 @@
 Imports System.Windows.Forms
 Imports System.Drawing
 Imports stdole.LoadPictureConstants
-Imports Microsoft.VisualBasic.Compatibility.VB6
 Imports System.Collections.Generic
 
 

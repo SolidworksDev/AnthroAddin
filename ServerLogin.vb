@@ -23,9 +23,9 @@ Public Class ServerLogin
         ElseIf strUserName = "jerryn" Then
             strUserName = "NethkenJ"
         ElseIf strUserName = "Mikedg" Then
-            strUserName = "GiansanteM"
+            strUserName = "cliftt"
         ElseIf strUserName = "mikedg" Then
-            strUserName = "GiansanteM"
+            strUserName = "cliftt"
         Else
             Dim length As Integer = strUserName.Length
             Dim strLastChar As String = strUserName.Remove(1)

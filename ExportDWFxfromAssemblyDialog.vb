@@ -16,6 +16,7 @@ Public Class ExportDWFxfromAssemblyDialog
     Public serverLogin As New ServerLogin
     Private bAllChecked As Boolean = False
     Private exportPath As String = "\\ANTHRO3\dwf\Standard\"
+    Private exportDXFPath As String = "\\ANTHRO3\DXF\"
     Private strFileName As String = ""
     Private bCurrentSettings As Boolean = False
     Public Shared bAcceptClicked As Boolean = False
@@ -66,11 +67,13 @@ Public Class ExportDWFxfromAssemblyDialog
             invRefDocs = invAsmDoc.AllReferencedDocuments
 
             Dim invRefDoc As Document
+            Dim DocName As String
 
             For Each invRefDoc In invRefDocs
-                If IsDoc(invRefDoc.DisplayName) Then
-                    If Not newList.Items.Contains(invRefDoc.DisplayName) Then
-                        newList.Items.Add(invRefDoc.DisplayName)
+                DocName = RemoveExt(invRefDoc.DisplayName)
+                If IsDoc(DocName) Then
+                    If Not newList.Items.Contains(DocName) Then
+                        newList.Items.Add(DocName)
                     End If
                 End If
             Next
@@ -243,6 +246,8 @@ Public Class ExportDWFxfromAssemblyDialog
                     End If
                     invDrawingDoc = invDocs.Open(strDrawingFileName)
                     invDrawingDoc.SaveAs(exportPath & invDrawingDoc.DisplayName & ".dwfx", True)
+                    'Added to export .dxf file to new location'
+                    invDrawingDoc.SaveAs(exportDXFPath & invDrawingDoc.DisplayName & ".dxf", True)
                     invDrawingDoc.Close()
 
                 Next

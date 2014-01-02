@@ -29,6 +29,11 @@ Public Class DrawLineArt
         Dim invSheet As Sheet
         invSheet = invDrawingDoc.ActiveSheet
         invSheet.Size = DrawingSheetSizeEnum.kBDrawingSheetSize
+        Dim invDrawingStyleManager As DrawingStylesManager
+        invDrawingStyleManager = invDrawingDoc.StylesManager
+
+
+
 
         ' Create the placement point object.
         Dim invPoint As Point2d

@@ -4,7 +4,6 @@ Imports System.Drawing
 Imports Microsoft.Win32
 Imports System.Windows.Forms
 Imports System.Runtime.InteropServices
-Imports Microsoft.VisualBasic.Compatibility.VB6
 
 Namespace AnthroAddIn
     <ProgIdAttribute("AnthroAddIn.StandardAddInServer"), _
