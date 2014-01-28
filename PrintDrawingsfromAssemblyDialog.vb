@@ -56,9 +56,9 @@ Public Class printDrawingsfromAssemblyDialog
 
             Dim invAsmDoc As AssemblyDocument
             invAsmDoc = invApp.ActiveDocument
-            newList.Items.Add(RemoveExt(invAsmDoc.DisplayName))
+            newList.Items.Add(invAsmDoc.DisplayName)
             If SelectUnApproved.Checked And IsApproved(invAsmDoc) Then
-                newList.Items.Remove(RemoveExt(invAsmDoc.DisplayName))
+                newList.Items.Remove(invAsmDoc.DisplayName)
             End If
 
             Dim invRefDocs As DocumentsEnumerator
@@ -68,7 +68,7 @@ Public Class printDrawingsfromAssemblyDialog
             Dim DocName As String            
 
             For Each invRefDoc In invRefDocs
-                DocName = RemoveExt(invRefDoc.DisplayName)
+                DocName = invRefDoc.DisplayName
                 If IsDoc(DocName) Then
                     If Not newList.Items.Contains(DocName) Then
                         newList.Items.Add(DocName)

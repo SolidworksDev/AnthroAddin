@@ -70,7 +70,7 @@ Public Class ExportDWFxfromAssemblyDialog
             Dim DocName As String
 
             For Each invRefDoc In invRefDocs
-                DocName = RemoveExt(invRefDoc.DisplayName)
+                DocName = invRefDoc.DisplayName
                 If IsDoc(DocName) Then
                     If Not newList.Items.Contains(DocName) Then
                         newList.Items.Add(DocName)
@@ -172,7 +172,7 @@ Public Class ExportDWFxfromAssemblyDialog
                         drawingsList.Item(i).SetFullRefName(invDocs.Item(j).FullDocumentName())
                         drawingsList.Item(i).SetFullDawingName(invDocs.Item(j).FullDocumentName())
                         drawingsList.Item(i).SetRefPath(invDocs.Item(j))
-                        drawingsList.Item(i).SetDrawingFile(invDocs.Item(j).DisplayName())
+                        drawingsList.Item(i).SetDrawingFile(RemoveExt(invDocs.Item(j).DisplayName()))
                         drawingsList.Item(i).SetDrawingPath(invDocs.Item(j))
                         Exit For
                     End If
@@ -245,9 +245,9 @@ Public Class ExportDWFxfromAssemblyDialog
                         Next
                     End If
                     invDrawingDoc = invDocs.Open(strDrawingFileName)
-                    invDrawingDoc.SaveAs(exportPath & invDrawingDoc.DisplayName & ".dwfx", True)
+                    invDrawingDoc.SaveAs(exportPath & RemoveExt(invDrawingDoc.DisplayName) & ".dwfx", True)
                     'Added to export .dxf file to new location'
-                    invDrawingDoc.SaveAs(exportDXFPath & invDrawingDoc.DisplayName & ".dxf", True)
+                    'invDrawingDoc.SaveAs(exportDXFPath & invDrawingDoc.DisplayName & ".dxf", True)
                     invDrawingDoc.Close()
 
                 Next

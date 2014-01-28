@@ -158,7 +158,7 @@ Module globals
     Public Function RemoveExt(ByVal DocName As String) As String
         Dim NoExt As String
 
-        If InStr(".", DocName) Then
+        If DocName.Contains(".") Then
             NoExt = DocName.Remove(DocName.Length - 4)
         Else
             NoExt = DocName

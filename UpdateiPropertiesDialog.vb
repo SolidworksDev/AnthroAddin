@@ -54,10 +54,13 @@ Public Class UpdateiPropertiesDialog
             newList.Location = ListPosition
 
             Dim invAsmDoc As AssemblyDocument
+            Dim DocName As String
+
             invAsmDoc = invApp.ActiveDocument
-            newList.Items.Add(invAsmDoc.DisplayName + ".iam")
+            DocName = invAsmDoc.DisplayName
+            newList.Items.Add(DocName)
             If ShowUnApproved.Checked And IsApproved(invAsmDoc) Then
-                newList.Items.Remove(invAsmDoc.DisplayName + ".iam")
+                newList.Items.Remove(DocName)
             End If
 
             Dim invRefDocs As DocumentsEnumerator
@@ -70,13 +73,13 @@ Public Class UpdateiPropertiesDialog
                 If IsDoc(invRefDoc.DisplayName) Then
                     Select Case invRefDoc.DocumentType
                         Case Inventor.DocumentTypeEnum.kAssemblyDocumentObject
-                            strListName = invRefDoc.DisplayName + ".iam"
+                            strListName = invRefDoc.DisplayName
                             newList.Items.Add(strListName)
                             If ShowUnApproved.Checked And IsApproved(invRefDoc) Then
                                 newList.Items.Remove(strListName)
                             End If
                         Case Inventor.DocumentTypeEnum.kPartDocumentObject
-                            strListName = invRefDoc.DisplayName + ".ipt"
+                            strListName = invRefDoc.DisplayName
                             newList.Items.Add(strListName)
                             If ShowUnApproved.Checked And IsApproved(invRefDoc) Then
                                 newList.Items.Remove(strListName)
@@ -138,7 +141,7 @@ Public Class UpdateiPropertiesDialog
 
         ' If the Revision Value is a numeric value of is an empty string change it to "-"
         If Integer.TryParse(oPartRevisionProp.Value.ToString, x) Or oPartRevisionProp.Value.ToString = "" Then
-            oPartRevisionProp.Value = "-"
+            oPartRevisionProp.Value = "A"
         End If
 
     End Sub
@@ -294,12 +297,12 @@ Public Class UpdateiPropertiesDialog
 
             For i = 0 To docsList.Count - 1
                 For j = 1 To invDocs.Count
-                    If docsList.Item(i).StripExt(docsList.Item(i).GetRefFile()) = invDocs.Item(j).DisplayName() Then
+                    If docsList.Item(i).GetRefFile() = invDocs.Item(j).DisplayName() Then
                         docsList.Item(i).SetRefIndex(j)
                         docsList.Item(i).SetFullRefName(invDocs.Item(j).FullDocumentName())
                         docsList.Item(i).SetFullDawingName(invDocs.Item(j).FullDocumentName())
                         docsList.Item(i).SetRefPath(invDocs.Item(j))
-                        docsList.Item(i).SetDrawingFile(invDocs.Item(j).DisplayName())
+                        docsList.Item(i).SetDrawingFile(RemoveExt(invDocs.Item(j).DisplayName()))
                         docsList.Item(i).SetDrawingPath(invDocs.Item(j))
                         Exit For
                     End If
@@ -513,6 +516,9 @@ Public Class UpdateiPropertiesDialog
 
     End Sub
 
+    Private Sub txtBxApprovedBy_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtBxApprovedBy.TextChanged
+
+    End Sub
 End Class
 
 #Region "hWnd Wrapper Class"

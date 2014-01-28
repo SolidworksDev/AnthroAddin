@@ -28,8 +28,8 @@ Partial Class UpdateiPropertiesDialog
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnAccept = New System.Windows.Forms.Button()
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.txtBxApprovedBy = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.SelectAll = New System.Windows.Forms.CheckBox()
         Me.ShowUnApproved = New System.Windows.Forms.CheckBox()
@@ -87,6 +87,14 @@ Partial Class UpdateiPropertiesDialog
         Me.TableLayoutPanel2.Size = New System.Drawing.Size(257, 32)
         Me.TableLayoutPanel2.TabIndex = 2
         '
+        'txtBxApprovedBy
+        '
+        Me.txtBxApprovedBy.Location = New System.Drawing.Point(82, 3)
+        Me.txtBxApprovedBy.Name = "txtBxApprovedBy"
+        Me.txtBxApprovedBy.Size = New System.Drawing.Size(148, 20)
+        Me.txtBxApprovedBy.TabIndex = 2
+        Me.txtBxApprovedBy.Text = "SRA"
+        '
         'Label1
         '
         Me.Label1.AutoSize = True
@@ -95,14 +103,6 @@ Partial Class UpdateiPropertiesDialog
         Me.Label1.Size = New System.Drawing.Size(71, 13)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Approved By:"
-        '
-        'txtBxApprovedBy
-        '
-        Me.txtBxApprovedBy.Location = New System.Drawing.Point(82, 3)
-        Me.txtBxApprovedBy.Name = "txtBxApprovedBy"
-        Me.txtBxApprovedBy.Size = New System.Drawing.Size(148, 20)
-        Me.txtBxApprovedBy.TabIndex = 2
-        Me.txtBxApprovedBy.Text = "jtm"
         '
         'ErrorProvider1
         '

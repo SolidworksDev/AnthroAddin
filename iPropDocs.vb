@@ -33,7 +33,7 @@ Public Class iPropDocs
     Public Sub SetDrawingPath(ByVal Ref As Document)
         Dim strTmp As String
         strTmp = Ref.FullFileName
-        strDrawingPath = strTmp.Remove(strTmp.Length - Ref.DisplayName.Length - 4)
+        strDrawingPath = strTmp.Remove(strTmp.Length - Ref.DisplayName.Length)
         strDrawingVaultPath = strDrawingPath.Replace("C:\_Vault_Working_Folder", "$").Replace("\", "/")
     End Sub
 
@@ -68,7 +68,7 @@ Public Class iPropDocs
     Public Sub SetRefPath(ByVal Ref As Document)
         Dim strTmp As String
         strTmp = Ref.FullFileName
-        strRefPath = strTmp.Remove(strTmp.Length - Ref.DisplayName.Length - 4)
+        strRefPath = strTmp.Remove(strTmp.Length - Ref.DisplayName.Length)
         strRefVaultPath = strRefPath.Replace("C:\_Vault_Working_Folder", "$").Replace("\", "/")
     End Sub
 
