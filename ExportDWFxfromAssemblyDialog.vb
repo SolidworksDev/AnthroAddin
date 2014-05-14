@@ -8,6 +8,7 @@ Imports AnthroAddIn.Security
 Imports AnthroAddIn.DocumentSvc
 Imports System.Collections.Generic
 Imports System.Security.Principal.WindowsIdentity
+Imports System.IO.Path
 
 Public Class ExportDWFxfromAssemblyDialog
 
@@ -172,7 +173,7 @@ Public Class ExportDWFxfromAssemblyDialog
                         drawingsList.Item(i).SetFullRefName(invDocs.Item(j).FullDocumentName())
                         drawingsList.Item(i).SetFullDawingName(invDocs.Item(j).FullDocumentName())
                         drawingsList.Item(i).SetRefPath(invDocs.Item(j))
-                        drawingsList.Item(i).SetDrawingFile(RemoveExt(invDocs.Item(j).DisplayName()))
+                        drawingsList.Item(i).SetDrawingFile(ChangeExtension(invDocs.Item(j).DisplayName(), "idw"))
                         drawingsList.Item(i).SetDrawingPath(invDocs.Item(j))
                         Exit For
                     End If
@@ -245,7 +246,7 @@ Public Class ExportDWFxfromAssemblyDialog
                         Next
                     End If
                     invDrawingDoc = invDocs.Open(strDrawingFileName)
-                    invDrawingDoc.SaveAs(exportPath & RemoveExt(invDrawingDoc.DisplayName) & ".dwfx", True)
+                    invDrawingDoc.SaveAs(exportPath & ChangeExtension(invDrawingDoc.DisplayName(), "dwfx"), True)
                     'Added to export .dxf file to new location'
                     'invDrawingDoc.SaveAs(exportDXFPath & invDrawingDoc.DisplayName & ".dxf", True)
                     invDrawingDoc.Close()

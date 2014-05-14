@@ -27,21 +27,19 @@ Partial Class SlotFeatureDialog
         Me.tblButtons = New System.Windows.Forms.TableLayoutPanel()
         Me.btnAccept = New System.Windows.Forms.Button()
         Me.btnCancel = New System.Windows.Forms.Button()
-        Me.txtbWidth = New System.Windows.Forms.TextBox()
-        Me.txtbHeigth = New System.Windows.Forms.TextBox()
-        Me.gbSize = New System.Windows.Forms.GroupBox()
-        Me.cbWorkAxis = New System.Windows.Forms.CheckBox()
-        Me.rbtnVertical = New System.Windows.Forms.RadioButton()
-        Me.rbtnHorizontal = New System.Windows.Forms.RadioButton()
-        Me.tblSize = New System.Windows.Forms.TableLayoutPanel()
-        Me.txtWidth = New System.Windows.Forms.Label()
-        Me.txtHeigth = New System.Windows.Forms.Label()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.HelpProvider1 = New System.Windows.Forms.HelpProvider()
+        Me.tblSize = New System.Windows.Forms.TableLayoutPanel()
+        Me.txtbHeigth = New System.Windows.Forms.TextBox()
+        Me.txtHeigth = New System.Windows.Forms.Label()
+        Me.txtWidth = New System.Windows.Forms.Label()
+        Me.txtbWidth = New System.Windows.Forms.TextBox()
+        Me.rbtnHorizontal = New System.Windows.Forms.RadioButton()
+        Me.rbtnVertical = New System.Windows.Forms.RadioButton()
+        Me.cbWorkAxis = New System.Windows.Forms.CheckBox()
         Me.tblButtons.SuspendLayout()
-        Me.gbSize.SuspendLayout()
-        Me.tblSize.SuspendLayout()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tblSize.SuspendLayout()
         Me.SuspendLayout()
         '
         'tblButtons
@@ -57,7 +55,7 @@ Partial Class SlotFeatureDialog
         Me.tblButtons.RowCount = 1
         Me.tblButtons.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.tblButtons.Size = New System.Drawing.Size(162, 29)
-        Me.tblButtons.TabIndex = 2
+        Me.tblButtons.TabIndex = 0
         '
         'btnAccept
         '
@@ -77,68 +75,9 @@ Partial Class SlotFeatureDialog
         Me.btnCancel.Text = "Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
-        'txtbWidth
+        'ErrorProvider1
         '
-        Me.txtbWidth.Location = New System.Drawing.Point(3, 59)
-        Me.txtbWidth.Name = "txtbWidth"
-        Me.txtbWidth.Size = New System.Drawing.Size(105, 20)
-        Me.txtbWidth.TabIndex = 1
-        Me.txtbWidth.Text = ".5"
-        '
-        'txtbHeigth
-        '
-        Me.txtbHeigth.Location = New System.Drawing.Point(3, 18)
-        Me.txtbHeigth.Name = "txtbHeigth"
-        Me.txtbHeigth.Size = New System.Drawing.Size(105, 20)
-        Me.txtbHeigth.TabIndex = 0
-        Me.txtbHeigth.Text = ".125"
-        '
-        'gbSize
-        '
-        Me.gbSize.Controls.Add(Me.cbWorkAxis)
-        Me.gbSize.Controls.Add(Me.rbtnVertical)
-        Me.gbSize.Controls.Add(Me.rbtnHorizontal)
-        Me.gbSize.Controls.Add(Me.tblSize)
-        Me.gbSize.Location = New System.Drawing.Point(12, 12)
-        Me.gbSize.Name = "gbSize"
-        Me.gbSize.Size = New System.Drawing.Size(181, 173)
-        Me.gbSize.TabIndex = 6
-        Me.gbSize.TabStop = False
-        '
-        'cbWorkAxis
-        '
-        Me.cbWorkAxis.AutoSize = True
-        Me.cbWorkAxis.Checked = True
-        Me.cbWorkAxis.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbWorkAxis.Location = New System.Drawing.Point(89, 139)
-        Me.cbWorkAxis.Name = "cbWorkAxis"
-        Me.cbWorkAxis.Size = New System.Drawing.Size(74, 17)
-        Me.cbWorkAxis.TabIndex = 6
-        Me.cbWorkAxis.TabStop = False
-        Me.cbWorkAxis.Text = "Work Axis"
-        Me.cbWorkAxis.UseVisualStyleBackColor = True
-        '
-        'rbtnVertical
-        '
-        Me.rbtnVertical.AutoSize = True
-        Me.rbtnVertical.Location = New System.Drawing.Point(23, 138)
-        Me.rbtnVertical.Name = "rbtnVertical"
-        Me.rbtnVertical.Size = New System.Drawing.Size(60, 17)
-        Me.rbtnVertical.TabIndex = 5
-        Me.rbtnVertical.Text = "Vertical"
-        Me.rbtnVertical.UseVisualStyleBackColor = True
-        '
-        'rbtnHorizontal
-        '
-        Me.rbtnHorizontal.AutoSize = True
-        Me.rbtnHorizontal.Checked = True
-        Me.rbtnHorizontal.Location = New System.Drawing.Point(23, 115)
-        Me.rbtnHorizontal.Name = "rbtnHorizontal"
-        Me.rbtnHorizontal.Size = New System.Drawing.Size(72, 17)
-        Me.rbtnHorizontal.TabIndex = 4
-        Me.rbtnHorizontal.TabStop = True
-        Me.rbtnHorizontal.Text = "Horizontal"
-        Me.rbtnHorizontal.UseVisualStyleBackColor = True
+        Me.ErrorProvider1.ContainerControl = Me
         '
         'tblSize
         '
@@ -148,7 +87,7 @@ Partial Class SlotFeatureDialog
         Me.tblSize.Controls.Add(Me.txtWidth, 0, 2)
         Me.tblSize.Controls.Add(Me.txtHeigth, 0, 0)
         Me.tblSize.Controls.Add(Me.txtbHeigth, 0, 1)
-        Me.tblSize.Location = New System.Drawing.Point(23, 20)
+        Me.tblSize.Location = New System.Drawing.Point(12, 22)
         Me.tblSize.Name = "tblSize"
         Me.tblSize.RowCount = 2
         Me.tblSize.RowStyles.Add(New System.Windows.Forms.RowStyle())
@@ -156,17 +95,16 @@ Partial Class SlotFeatureDialog
         Me.tblSize.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.tblSize.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.tblSize.Size = New System.Drawing.Size(132, 89)
-        Me.tblSize.TabIndex = 7
+        Me.tblSize.TabIndex = 0
         '
-        'txtWidth
+        'txtbHeigth
         '
-        Me.txtWidth.AutoSize = True
-        Me.txtWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtWidth.Location = New System.Drawing.Point(3, 41)
-        Me.txtWidth.Name = "txtWidth"
-        Me.txtWidth.Size = New System.Drawing.Size(38, 15)
-        Me.txtWidth.TabIndex = 6
-        Me.txtWidth.Text = "Width"
+        Me.txtbHeigth.AcceptsTab = True
+        Me.txtbHeigth.Location = New System.Drawing.Point(3, 18)
+        Me.txtbHeigth.Name = "txtbHeigth"
+        Me.txtbHeigth.Size = New System.Drawing.Size(105, 20)
+        Me.txtbHeigth.TabIndex = 0
+        Me.txtbHeigth.Text = ".125"
         '
         'txtHeigth
         '
@@ -175,20 +113,71 @@ Partial Class SlotFeatureDialog
         Me.txtHeigth.Location = New System.Drawing.Point(3, 0)
         Me.txtHeigth.Name = "txtHeigth"
         Me.txtHeigth.Size = New System.Drawing.Size(43, 15)
-        Me.txtHeigth.TabIndex = 5
+        Me.txtHeigth.TabIndex = 3
         Me.txtHeigth.Text = "Heigth"
         '
-        'ErrorProvider1
+        'txtWidth
         '
-        Me.ErrorProvider1.ContainerControl = Me
+        Me.txtWidth.AutoSize = True
+        Me.txtWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtWidth.Location = New System.Drawing.Point(3, 41)
+        Me.txtWidth.Name = "txtWidth"
+        Me.txtWidth.Size = New System.Drawing.Size(38, 15)
+        Me.txtWidth.TabIndex = 2
+        Me.txtWidth.Text = "Width"
+        '
+        'txtbWidth
+        '
+        Me.txtbWidth.AcceptsTab = True
+        Me.txtbWidth.Location = New System.Drawing.Point(3, 59)
+        Me.txtbWidth.Name = "txtbWidth"
+        Me.txtbWidth.Size = New System.Drawing.Size(105, 20)
+        Me.txtbWidth.TabIndex = 1
+        Me.txtbWidth.Text = ".5"
+        '
+        'rbtnHorizontal
+        '
+        Me.rbtnHorizontal.AutoSize = True
+        Me.rbtnHorizontal.Checked = True
+        Me.rbtnHorizontal.Location = New System.Drawing.Point(12, 129)
+        Me.rbtnHorizontal.Name = "rbtnHorizontal"
+        Me.rbtnHorizontal.Size = New System.Drawing.Size(72, 17)
+        Me.rbtnHorizontal.TabIndex = 4
+        Me.rbtnHorizontal.TabStop = True
+        Me.rbtnHorizontal.Text = "Horizontal"
+        Me.rbtnHorizontal.UseVisualStyleBackColor = True
+        '
+        'rbtnVertical
+        '
+        Me.rbtnVertical.AutoSize = True
+        Me.rbtnVertical.Location = New System.Drawing.Point(12, 161)
+        Me.rbtnVertical.Name = "rbtnVertical"
+        Me.rbtnVertical.Size = New System.Drawing.Size(60, 17)
+        Me.rbtnVertical.TabIndex = 5
+        Me.rbtnVertical.Text = "Vertical"
+        Me.rbtnVertical.UseVisualStyleBackColor = True
+        '
+        'cbWorkAxis
+        '
+        Me.cbWorkAxis.AutoSize = True
+        Me.cbWorkAxis.Location = New System.Drawing.Point(96, 161)
+        Me.cbWorkAxis.Name = "cbWorkAxis"
+        Me.cbWorkAxis.Size = New System.Drawing.Size(74, 17)
+        Me.cbWorkAxis.TabIndex = 6
+        Me.cbWorkAxis.TabStop = False
+        Me.cbWorkAxis.Text = "Work Axis"
+        Me.cbWorkAxis.UseVisualStyleBackColor = True
         '
         'SlotFeatureDialog
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(206, 242)
-        Me.Controls.Add(Me.gbSize)
+        Me.Controls.Add(Me.cbWorkAxis)
         Me.Controls.Add(Me.tblButtons)
+        Me.Controls.Add(Me.rbtnVertical)
+        Me.Controls.Add(Me.rbtnHorizontal)
+        Me.Controls.Add(Me.tblSize)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.HelpButton = True
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -197,26 +186,24 @@ Partial Class SlotFeatureDialog
         Me.Name = "SlotFeatureDialog"
         Me.Text = "Slot"
         Me.tblButtons.ResumeLayout(False)
-        Me.gbSize.ResumeLayout(False)
-        Me.gbSize.PerformLayout()
+        CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tblSize.ResumeLayout(False)
         Me.tblSize.PerformLayout()
-        CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents tblButtons As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents btnAccept As System.Windows.Forms.Button
     Friend WithEvents btnCancel As System.Windows.Forms.Button
-    Friend WithEvents txtbWidth As System.Windows.Forms.TextBox
-    Friend WithEvents txtbHeigth As System.Windows.Forms.TextBox
-    Friend WithEvents gbSize As System.Windows.Forms.GroupBox
-    Friend WithEvents tblSize As System.Windows.Forms.TableLayoutPanel
-    Friend WithEvents txtWidth As System.Windows.Forms.Label
-    Friend WithEvents txtHeigth As System.Windows.Forms.Label
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents HelpProvider1 As System.Windows.Forms.HelpProvider
+    Friend WithEvents cbWorkAxis As System.Windows.Forms.CheckBox
     Friend WithEvents rbtnVertical As System.Windows.Forms.RadioButton
     Friend WithEvents rbtnHorizontal As System.Windows.Forms.RadioButton
-    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-    Friend WithEvents cbWorkAxis As System.Windows.Forms.CheckBox
-    Friend WithEvents HelpProvider1 As System.Windows.Forms.HelpProvider
+    Friend WithEvents tblSize As System.Windows.Forms.TableLayoutPanel
+    Friend WithEvents txtbWidth As System.Windows.Forms.TextBox
+    Friend WithEvents txtWidth As System.Windows.Forms.Label
+    Friend WithEvents txtHeigth As System.Windows.Forms.Label
+    Friend WithEvents txtbHeigth As System.Windows.Forms.TextBox
 End Class

@@ -151,7 +151,9 @@ Public Class printDrawingsfromAssemblyDialog
                     If CType(aControl, CheckedListBox).CheckedItems.Count <> 0 Then
                         For Each Me.anObject In CType(aControl, CheckedListBox).CheckedItems
                             If TypeOf anObject Is String Then
-                                drawingList.SetDocName(anObject.ToString)
+                                If drawingList.NotInList(anObject.ToString) Then
+                                    drawingList.SetDocName(anObject.ToString)
+                                End If
                             End If
                         Next
                     Else

@@ -674,6 +674,8 @@ Public Class SlotFeatureDialog
                 Exit Sub
             End If
 
+            txtbHeigth.Focus()
+
         Catch ex As Exception
             MessageBox.Show(ex.ToString)
         End Try
@@ -788,6 +790,7 @@ Public Class SlotFeatureDialog
             End If
 
             invApp.ActiveView.Update()
+            txtbWidth.Focus()
 
         Catch ex As Exception
             MessageBox.Show(ex.ToString)
@@ -867,6 +870,7 @@ Public Class SlotFeatureDialog
             End If
 
             invApp.ActiveView.Update()
+            btnAccept.Focus()
 
         Catch ex As Exception
             MessageBox.Show(ex.ToString)

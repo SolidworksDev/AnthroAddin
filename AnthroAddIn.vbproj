@@ -143,6 +143,7 @@
     <Compile Include="SelectDialog.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Settings.vb" />
     <Compile Include="SlotFeatureDialog.Designer.vb">
       <DependentUpon>SlotFeatureDialog.vb</DependentUpon>
     </Compile>
@@ -476,10 +477,13 @@
     <PreBuildEvent>
     </PreBuildEvent>
     <PostBuildEvent>call "%25VS100COMNTOOLS%25vsvars32"
-			mt.exe -manifest "$(ProjectDir)AnthroAddin.X.manifest" -outputresource:"$(TargetPath)";#2
+mt.exe -manifest "$(ProjectDir)AnthroAddin.X.manifest" -outputresource:"$(TargetPath)";#2
 
-xcopy /y "$(ProjectDir)Autodesk.AnthroAddin.Inventor.addin" "$(AppData)\Autodesk\Inventor 2013\Addins\"
+xcopy /y "$(ProjectDir)Autodesk.AnthroAddin.Inventor.addin" "$(AppData)\Autodesk\Inventor 2014\Addins\"
 
-xcopy /y "$(ProjectDir)\bin\Debug\AnthroAddin.dll" "C:\Users\tclift\Documents\Inventor\AnthroAddin"</PostBuildEvent>
+xcopy /y "$(ProjectDir)\bin\Debug\AnthroAddin.dll" "C:\Users\tclift\Documents\Inventor\AnthroAddin"
+echo $(AppData)
+
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

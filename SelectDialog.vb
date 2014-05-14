@@ -125,10 +125,10 @@ Public Class SelectDialog
             Else
                 verifyForm.VerifyDialog_AddListBox(drawingList, DrawingListcontrols, _
                                                   "DrawingsListDialogLable",
-                                                  "Print the following drawings?",
+                                                  "Publish the following drawings?",
                                                   "DrawingsListBox",
                                                   "Select Drawings")
-                verifyForm.Text = "Veriry Export DWFx"
+                verifyForm.Text = "Verify Export DWFx"
                 verifyForm.Icon = My.Resources.DWF_Viewer
             End If
         End If
@@ -140,7 +140,7 @@ Public Class SelectDialog
                 For j = 0 To drawingList.Count - 1
                     If invDocs.Item(i).DisplayName = drawingList.Item(j).ToString And invDocs.Item(i).DocumentType = DocumentTypeEnum.kDrawingDocumentObject Then
                         If chkExport.Checked = True Then
-                            invDocs.Item(i).SaveAs(exportPath & drawingList(j).ToString & ".dwfx", True)
+                            invDocs.Item(i).SaveAs(exportPath & RemoveExt(drawingList(j).ToString) & ".dwfx", True)
                         End If
                         If chkPrint.Checked = True Then
                             invDocs.Item(i).PrintManager.SubmitPrint()

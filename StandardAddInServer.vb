@@ -1104,6 +1104,7 @@ Namespace AnthroAddIn
                             m_createComponentPlaceholderButtonDef.Enabled = False
                         End If
                     End If
+
                 End If
             End If
 

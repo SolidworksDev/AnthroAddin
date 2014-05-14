@@ -1,4 +1,5 @@
 ﻿Imports Inventor
+Imports System.IO.Path
 
 Public Class iPropDocs
 
@@ -17,23 +18,21 @@ Public Class iPropDocs
         If Name = Nothing Then
             strDrawingFile = Nothing
         Else
-            strDrawingFile = Name + ".idw"
+            strDrawingFile = Name
         End If
 
     End Sub
 
     Public Sub SetFullDawingName(ByVal Name As String)
-        strFullDrawingName = Name.Remove(Name.Length - 4) + ".idw"
+        strFullDrawingName = Name
     End Sub
 
     Public Function GetDrawingFile() As String
         Return strDrawingFile
     End Function
 
-    Public Sub SetDrawingPath(ByVal Ref As Document)
-        Dim strTmp As String
-        strTmp = Ref.FullFileName
-        strDrawingPath = strTmp.Remove(strTmp.Length - Ref.DisplayName.Length)
+    Public Sub SetDrawingPath(ByVal Ref As Document)        
+        strDrawingPath = GetDirectoryName(Ref.FullFileName) + "\"
         strDrawingVaultPath = strDrawingPath.Replace("C:\_Vault_Working_Folder", "$").Replace("\", "/")
     End Sub
 
@@ -66,9 +65,7 @@ Public Class iPropDocs
     End Function
 
     Public Sub SetRefPath(ByVal Ref As Document)
-        Dim strTmp As String
-        strTmp = Ref.FullFileName
-        strRefPath = strTmp.Remove(strTmp.Length - Ref.DisplayName.Length)
+        strRefPath = GetDirectoryName(Ref.FullFileName) + "\"
         strRefVaultPath = strRefPath.Replace("C:\_Vault_Working_Folder", "$").Replace("\", "/")
     End Sub
 
@@ -102,10 +99,6 @@ Public Class iPropDocs
 
     Public Function GetFullRefName() As String
         Return strFullRefName
-    End Function
-
-    Public Function StripExt(ByVal Name As String) As String
-        Return Name.Remove(Name.Length - 4)
     End Function
 
 End Class

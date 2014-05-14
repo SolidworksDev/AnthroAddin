@@ -1,5 +1,6 @@
 ﻿Imports Inventor
 Imports System.Windows.Forms
+Imports System.IO.Path
 
 Public Class ExportDXFfromAssemblyDialog
 
@@ -96,7 +97,7 @@ Public Class ExportDXFfromAssemblyDialog
         sOut = "FLAT PATTERN DXF?AcadVersion=2004&InvisibleLayers=IV_TANGENT;IV_ARC_CENTERS;IV_ALTREP_FRONT;IV_ALTREP_BACK;IV_UNCOMSUMED_SKETCHES;IV_ROLL_TANGENT;IV_ROLL"
         For i = 0 To DocList.DocIndex.Count - 1
             invDoc = invDocs(DocList.DocIndex.Item(i))
-            strFullPathWithName = strDXFLocation + invDoc.DisplayName + ".dxf"
+            strFullPathWithName = strDXFLocation + ChangeExtension(invDoc.DisplayName(), ".dxf")
             invDataIO = invDoc.ComponentDefinition.DataIO
             ' Create the DXF file.
             invDataIO.WriteDataToFile(sOut, strFullPathWithName)

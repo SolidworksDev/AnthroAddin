@@ -4,7 +4,7 @@ Imports AnthroAddIn.ServerLogin
 Imports AnthroAddIn.DocumentSvc
 Imports System.Windows.Forms
 Imports System.Collections.Generic
-
+Imports System.IO.Path
 
 Public Class UpdateiPropertiesDialog
 
@@ -279,11 +279,9 @@ Public Class UpdateiPropertiesDialog
                     If CType(aControl, CheckedListBox).CheckedItems.Count <> 0 Then
                         For Each anObject In CType(aControl, CheckedListBox).CheckedItems
                             If TypeOf anObject Is String Then
-                                If drawingList.NotInList(anObject.ToString) Then
-                                    Dim currentDoc As New iPropDocs
-                                    currentDoc.SetRefFile(anObject.ToString)
-                                    docsList.Add(currentDoc)
-                                End If
+                                Dim currentDoc As New iPropDocs
+                                currentDoc.SetRefFile(anObject.ToString)
+                                docsList.Add(currentDoc)                            
                             End If
                         Next
                     Else
@@ -300,9 +298,9 @@ Public Class UpdateiPropertiesDialog
                     If docsList.Item(i).GetRefFile() = invDocs.Item(j).DisplayName() Then
                         docsList.Item(i).SetRefIndex(j)
                         docsList.Item(i).SetFullRefName(invDocs.Item(j).FullDocumentName())
-                        docsList.Item(i).SetFullDawingName(invDocs.Item(j).FullDocumentName())
+                        docsList.Item(i).SetFullDawingName(ChangeExtension(invDocs.Item(j).FullDocumentName(), "idw"))
                         docsList.Item(i).SetRefPath(invDocs.Item(j))
-                        docsList.Item(i).SetDrawingFile(RemoveExt(invDocs.Item(j).DisplayName()))
+                        docsList.Item(i).SetDrawingFile(ChangeExtension(invDocs.Item(j).DisplayName(), "idw"))
                         docsList.Item(i).SetDrawingPath(invDocs.Item(j))
                         Exit For
                     End If
@@ -349,7 +347,7 @@ Public Class UpdateiPropertiesDialog
 
                 For i = 1 To strFolders.Length - 1
                     FoldersString = FoldersString + strFolders(i).ToString + Chr(13)
-                Next                
+                Next
 
                 folders = serverLogin.docSvc.GetFoldersByPaths(strFolders)
 
@@ -408,6 +406,18 @@ Public Class UpdateiPropertiesDialog
 
                         MoveECOBlocks(invCurrentRefDoc, invCurrentDrawingDoc)
                         SetiProperty(invCurrentRefDoc)
+
+                        If invCurrentRefDoc.DocumentType = DocumentTypeEnum.kAssemblyDocumentObject Then
+
+                            Dim invCurrentPartRefDoc As String = ChangeExtension(invCurrentRefDoc.FullDocumentName, ".ipt")
+
+                            If My.Computer.FileSystem.FileExists(invCurrentPartRefDoc) Then
+                                invCurrentRefDoc = invDocs.ItemByName(invCurrentPartRefDoc)
+                                SetiProperty(invCurrentRefDoc)
+                            End If
+
+                        End If
+                        
 
                         invApp.SilentOperation = True
                         invCurrentDrawingDoc.Save2(True)
