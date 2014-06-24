@@ -73,13 +73,13 @@ Public Class UpdateiPropertiesDialog
                 If IsDoc(invRefDoc.DisplayName) Then
                     Select Case invRefDoc.DocumentType
                         Case Inventor.DocumentTypeEnum.kAssemblyDocumentObject
-                            strListName = invRefDoc.DisplayName
+                            strListName = invRefDoc.DisplayName + ".iam"
                             newList.Items.Add(strListName)
                             If ShowUnApproved.Checked And IsApproved(invRefDoc) Then
                                 newList.Items.Remove(strListName)
                             End If
                         Case Inventor.DocumentTypeEnum.kPartDocumentObject
-                            strListName = invRefDoc.DisplayName
+                            strListName = invRefDoc.DisplayName + ".ipt"
                             newList.Items.Add(strListName)
                             If ShowUnApproved.Checked And IsApproved(invRefDoc) Then
                                 newList.Items.Remove(strListName)
@@ -95,9 +95,9 @@ Public Class UpdateiPropertiesDialog
             Dim inewListCount As Integer = newList.Items.Count - 1
 
             For i = 0 To newList.Items.Count - 1
-                If i < inewListCount Then
-                    strFirstnewLisName = newList.Items.Item(i).ToString.Remove(newList.Items.Item(i).ToString.Length - 4)
-                    strSecondnewListName = newList.Items.Item(i + 1).ToString.Remove(newList.Items.Item(i + 1).ToString.Length - 4)
+                If i < inewListCount Then                   
+                    strFirstnewLisName = ChangeExtension(newList.Items.Item(i).ToString, "")
+                    strSecondnewListName = ChangeExtension(newList.Items.Item(i + 1).ToString, "")
                     If strFirstnewLisName = strSecondnewListName Then
                         newList.Items.Remove(newList.Items.Item(i + 1))
                         inewListCount = inewListCount - 1
@@ -259,7 +259,8 @@ Public Class UpdateiPropertiesDialog
         Dim strLocalPath() As String = Nothing
         Dim vaultService As New VaultServices          
         Dim invCurrentRefDoc As Document
-        Dim invCurrentDrawingDoc As Document       
+        Dim invCurrentDrawingDoc As Document
+        Dim invCurrentRefPartDoc As Document
         Dim bytes As Byte() = {}
         Dim machineName As String = System.Environment.MachineName
         Dim folders() As DocumentSvc.Folder
@@ -294,8 +295,9 @@ Public Class UpdateiPropertiesDialog
             Next
 
             For i = 0 To docsList.Count - 1
+                Dim CurrentDoc As String = RemoveExt(docsList.Item(i).GetRefFile())
                 For j = 1 To invDocs.Count
-                    If docsList.Item(i).GetRefFile() = invDocs.Item(j).DisplayName() Then
+                    If CurrentDoc = invDocs.Item(j).DisplayName() Then
                         docsList.Item(i).SetRefIndex(j)
                         docsList.Item(i).SetFullRefName(invDocs.Item(j).FullDocumentName())
                         docsList.Item(i).SetFullDawingName(ChangeExtension(invDocs.Item(j).FullDocumentName(), "idw"))
@@ -402,18 +404,41 @@ Public Class UpdateiPropertiesDialog
                         End If
 
                         invCurrentRefDoc = invDocs.ItemByName(docsList.Item(i).GetRefPathName())
-                        invCurrentDrawingDoc = invDocs.ItemByName(docsList.Item(i).GetDrawingPathName())
+                        invCurrentDrawingDoc = invDocs.ItemByName(docsList.Item(i).GetDrawingPathName())                       
+#If DEBUG Then
 
+#Else
                         MoveECOBlocks(invCurrentRefDoc, invCurrentDrawingDoc)
                         SetiProperty(invCurrentRefDoc)
+#End If
 
                         If invCurrentRefDoc.DocumentType = DocumentTypeEnum.kAssemblyDocumentObject Then
 
-                            Dim invCurrentPartRefDoc As String = ChangeExtension(invCurrentRefDoc.FullDocumentName, ".ipt")
+                            Dim strRefPartDoc As String = ChangeExtension(invCurrentRefDoc.FullDocumentName, ".ipt")
+                            
 
-                            If My.Computer.FileSystem.FileExists(invCurrentPartRefDoc) Then
-                                invCurrentRefDoc = invDocs.ItemByName(invCurrentPartRefDoc)
-                                SetiProperty(invCurrentRefDoc)
+                            If My.Computer.FileSystem.FileExists(strRefPartDoc) Then
+
+
+                                invCurrentRefPartDoc = invDocs.ItemByName(strRefPartDoc)
+                                SetiProperty(invCurrentRefPartDoc)
+                                Dim VaultPath() As String = {""}
+                                VaultPath(0) = strRefPartDoc.Replace("C:\_Vault_Working_Folder", "$").Replace("\", "/")
+                                Dim PartrefFiles() As DocumentSvc.File = {}
+                                PartrefFiles = serverLogin.docSvc.FindLatestFilesByPaths(VaultPath)
+
+                                If Not PartrefFiles(0).CheckedOut Then
+                                    serverLogin.docSvc.CheckoutFile(folders(i).Id, PartrefFiles(0).Id, CheckoutFileOptions.Master,
+                                                                    machineName, strLocalPath(i), "", False, False, bytes)
+                                End If
+
+
+#If DEBUG Then
+
+#Else
+                                SetiProperty(invCurrentRefPartDoc)
+                                CheckinDoc(invCurrentRefPartDoc)
+#End If
                             End If
 
                         End If
@@ -422,9 +447,14 @@ Public Class UpdateiPropertiesDialog
                         invApp.SilentOperation = True
                         invCurrentDrawingDoc.Save2(True)
                         invApp.SilentOperation = False
-
+                       
+#If DEBUG Then
+                        'Don't check in files when debugging                       
+#Else
                         CheckinDoc(invCurrentRefDoc)
                         CheckinDoc(invCurrentDrawingDoc)
+#End If
+
 
                     End If
                 Next

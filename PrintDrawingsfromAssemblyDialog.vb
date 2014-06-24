@@ -6,6 +6,7 @@ Imports AnthroAddIn.Security
 Imports AnthroAddIn.DocumentSvc
 Imports System.Collections.Generic
 Imports System.Security.Principal.WindowsIdentity
+Imports System.IO.Path
 
 Public Class printDrawingsfromAssemblyDialog
 
@@ -76,6 +77,23 @@ Public Class printDrawingsfromAssemblyDialog
                     If SelectUnApproved.Checked And IsApproved(invRefDoc) Then
                         newList.Items.Remove(DocName)
                     End If
+                End If
+            Next
+
+            Dim strFirstnewLisName As String
+            Dim strSecondnewListName As String
+            Dim inewListCount As Integer = newList.Items.Count - 1
+
+            For i = 0 To newList.Items.Count - 1
+                If i < inewListCount Then
+                    strFirstnewLisName = ChangeExtension(newList.Items.Item(i).ToString, "")
+                    strSecondnewListName = ChangeExtension(newList.Items.Item(i + 1).ToString, "")
+                    If strFirstnewLisName = strSecondnewListName Then
+                        newList.Items.Remove(newList.Items.Item(i + 1))
+                        inewListCount = inewListCount - 1
+                    End If
+                Else
+                    Exit For
                 End If
             Next
 
@@ -177,19 +195,15 @@ Public Class printDrawingsfromAssemblyDialog
                         Exit For
                     End If
                     If invDocs.Item(j).DisplayName = drawingList.DrawingName.Item(i).ToString And Not invDocs.Item(j).FullFileName = Nothing Then
-                        Dim strTmp As String = ""
-                        Dim length As Integer
-                        strTmp = invDocs.Item(j).FullFileName.Replace("C:\_Vault_Working_Folder", "$").Replace("\", "/")
-                        length = strTmp.Length - 4
-                        drawingFiles(i) = strTmp.Remove(length)
-                        drawingFiles(i) = drawingFiles(i) + ".idw"
-                        strTmp = invDocs.Item(j).FullFileName
-                        length = strTmp.Length - 4
-                        downloadFiles(i) = strTmp.Remove(length)
-                        downloadFiles(i) = downloadFiles(i) + ".idw"
+                        drawingFiles(i) = ChangeExtension(invDocs.Item(j).FullFileName.Replace("C:\_Vault_Working_Folder", "$").Replace("\", "/"), ".idw")
+                        downloadFiles(i) = ChangeExtension(invDocs.Item(j).FullFileName, ".idw")                        
                     End If
                 Next j
             Next i
+
+            For i = 0 To drawingList.DrawingName.Count - 1
+                drawingList.DrawingName.Item(i) = ChangeExtension(drawingList.DrawingName.Item(i).ToString, ".idw")
+            Next
 
             'Generate the list of drawings to present to the user that will be printed
             If rbtnPrintFiles.Checked = True Then

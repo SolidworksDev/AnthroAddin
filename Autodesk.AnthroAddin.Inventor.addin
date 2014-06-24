@@ -3,7 +3,7 @@
   <ClassId>{f3971a52-8202-4a82-82a2-77d7cdb707f9"}</ClassId>
   <ClientId>{f3971a52-8202-4a82-82a2-77d7cdb707f9"}</ClientId>
   <DisplayName>AnthroAddin</DisplayName>
-  <Description>Anthro Inventor Customizations v1.1.03</Description>
+  <Description>Anthro Inventor Customizations v1.1.05</Description>
   <!--<Assembly>C:\Program Files (x86)\Anthro\AnthroAddin.dll</Assembly>-->
   <Assembly>C:\Users\tclift\Documents\Dev\Source\AnthroAddIn\bin\Debug\AnthroAddin.dll</Assembly>
   <LoadOnStartUp>1</LoadOnStartUp>

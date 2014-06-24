@@ -21,10 +21,10 @@ Public Class DrawingDocuments
 
         Dim i As Integer = 0
         Dim bNotInList As Boolean = True
-        Dim strDocName As String = invDocName.Remove(invDocName.Length - 4)
+        Dim strDocName As String = invDocName
 
         For Each dName In DrawingName
-            If dName.ToString.Remove(dName.ToString.Length - 4) = strDocName Then
+            If dName.ToString = strDocName Then
                 bNotInList = False
                 Exit For
             End If
