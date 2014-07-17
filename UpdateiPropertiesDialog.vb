@@ -57,7 +57,7 @@ Public Class UpdateiPropertiesDialog
             Dim DocName As String
 
             invAsmDoc = invApp.ActiveDocument
-            DocName = invAsmDoc.DisplayName
+            DocName = invAsmDoc.DisplayName + ".iam"
             newList.Items.Add(DocName)
             If ShowUnApproved.Checked And IsApproved(invAsmDoc) Then
                 newList.Items.Remove(DocName)
