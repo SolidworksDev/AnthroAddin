@@ -59,6 +59,7 @@ Namespace AnthroAddIn
         Private WithEvents m_calculateTopAreaComponentButtonDef As ButtonDefinition
         Private WithEvents m_interactionEvents As InteractionEvents
         Private WithEvents m_drawRectangleComponentButtonDef As ButtonDefinition
+        Private WithEvents m_saveAsDXFFromAssemblyButtonDef As ButtonDefinition
         Private WithEvents m_selection As SelectEvents
 
         ' Parts List export dialog sizes
@@ -226,6 +227,13 @@ Namespace AnthroAddIn
                                         ,
                                         "Draw a rectangle constrained to the XY origin",
                                         DrawRectanglePicture, DrawRectanglePicture)
+                m_saveAsDXFFromAssemblyButtonDef = controlDefs.AddButtonDefinition("SaveAs DXF", _
+                                       "AnthroSaveAsDXF",
+                                       CommandTypesEnum.kNonShapeEditCmdType,
+                                       m_ClientID, _
+                                       ,
+                                       "Save As DXF",
+                                       DXFPicture, DXFPicture)
 
                 If firstTime Then
 
@@ -290,6 +298,7 @@ Namespace AnthroAddIn
                     assemblyPanel.CommandControls.AddButton(m_updateiPropertiesButtonDef)
                     assemblyPanel.CommandControls.AddButton(m_exportDWFxButtonDef)
                     assemblyPanel.CommandControls.AddButton(m_drawLineArtButtonDef)
+                    assemblyPanel.CommandControls.AddButton(m_saveAsDXFFromAssemblyButtonDef)
                     drawingPanel.CommandControls.AddButton(m_printalldrawingsButtonDef)
                     drawingPanel.CommandControls.AddButton(m_updateLineArtPrecisionButtonDef)
                     drawingPanel.CommandControls.AddButton(m_updateCustomerPrecisionButtonDef)
@@ -359,6 +368,9 @@ Namespace AnthroAddIn
             Marshal.ReleaseComObject(m_drawRectangleComponentButtonDef)
             m_drawRectangleComponentButtonDef = Nothing
 
+            Marshal.ReleaseComObject(m_saveAsDXFFromAssemblyButtonDef)
+            m_saveAsDXFFromAssemblyButtonDef = Nothing
+
             System.GC.WaitForPendingFinalizers()
             System.GC.Collect()
 
@@ -417,6 +429,52 @@ Namespace AnthroAddIn
             selectDrawingsDialog.ShowDialog()
 
             'PrintCurrentDrawingDocuments(m_inventorApplication)
+        End Sub
+
+        Private Sub m_saveAsDXFFromAssemblyButtonDef_OnExecute(ByVal Context As Inventor.NameValueMap) Handles m_saveAsDXFFromAssemblyButtonDef.OnExecute
+
+            Try
+                Dim saveAsDXFfromAssemblyDialog As New saveAsDXFfromAssemblyDialog(m_inventorApplication)
+
+                Dim DrawingsListControls As Control.ControlCollection = saveAsDXFfromAssemblyDialog.DrawingsListFormControls
+
+                Dim AcceptPosition As System.Drawing.Point
+                AcceptPosition.X = iPrintDrawingsfromAssemblyDialogWidth - 170
+                AcceptPosition.Y = iPrintDrawingsfromAssemblyDialogHeight - 65
+
+                Dim CancelPosition As System.Drawing.Point
+                CancelPosition.X = iPrintDrawingsfromAssemblyDialogWidth - 90
+                CancelPosition.Y = iPrintDrawingsfromAssemblyDialogHeight - 65
+
+                Dim SelectAllPosition As System.Drawing.Point
+                SelectAllPosition.X = 10
+                SelectAllPosition.Y = iPrintDrawingsfromAssemblyDialogHeight - 65
+
+                Dim OpenRadioButtonPosition As System.Drawing.Point
+                OpenRadioButtonPosition.X = 10
+                OpenRadioButtonPosition.Y = iPrintDrawingsfromAssemblyDialogHeight - 90
+
+                Dim PrintRadioButtionPosition As System.Drawing.Point
+                PrintRadioButtionPosition.X = 10
+                PrintRadioButtionPosition.Y = iPrintDrawingsfromAssemblyDialogHeight - 110
+
+                Dim SelectUnauthroizedButtonPosition As System.Drawing.Point
+                SelectUnauthroizedButtonPosition.X = 115
+                SelectUnauthroizedButtonPosition.Y = iPrintDrawingsfromAssemblyDialogHeight - 90
+
+                saveAsDXFfromAssemblyDialog.DrawingsDialog_AddListBox(DrawingsListControls)
+                saveAsDXFfromAssemblyDialog.Height = iPrintDrawingsfromAssemblyDialogHeight
+                saveAsDXFfromAssemblyDialog.Width = iPrintDrawingsfromAssemblyDialogWidth
+                saveAsDXFfromAssemblyDialog.btnAccept.Location = AcceptPosition
+                saveAsDXFfromAssemblyDialog.btnCancel.Location = CancelPosition
+                saveAsDXFfromAssemblyDialog.SelectAll.Location = SelectAllPosition               
+                saveAsDXFfromAssemblyDialog.ShowDialog(New WindowWrapper(m_inventorApplication.MainFrameHWND))
+
+            Catch ex As Exception
+                MessageBox.Show(ex.ToString)
+            End Try            
+            
+
         End Sub
 
         Private Sub m_exportDXFButtonDef_OnExecute(ByVal Context As Inventor.NameValueMap) Handles m_exportDXFButtonDef.OnExecute
