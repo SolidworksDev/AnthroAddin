@@ -60,16 +60,17 @@ Namespace AnthroAddIn
         Private WithEvents m_interactionEvents As InteractionEvents
         Private WithEvents m_drawRectangleComponentButtonDef As ButtonDefinition
         Private WithEvents m_saveAsDXFFromAssemblyButtonDef As ButtonDefinition
+        Private WithEvents m_dimensionFlatButtonDef As ButtonDefinition
         Private WithEvents m_selection As SelectEvents
 
         ' Parts List export dialog sizes
-        Private iPartsDialogWidth As Integer = 250
+        Private iPartsDialogWidth As Integer = 285
         Private iPartsDialogHeight As Integer = 400
         ' Print Drawing dialog sizes
-        Private iPrintDrawingsfromAssemblyDialogWidth As Integer = 270
+        Private iPrintDrawingsfromAssemblyDialogWidth As Integer = 285
         Private iPrintDrawingsfromAssemblyDialogHeight As Integer = 435
         ' export DWFx dialog sizes
-        Private iExportDWFxfromAssemblyDialogWidth As Integer = 250
+        Private iExportDWFxfromAssemblyDialogWidth As Integer = 285
         Private iExportDWFxfromAssemblyDialogHeight As Integer = 400
 
         Private dBottomArea As Double = 0.0
@@ -234,6 +235,13 @@ Namespace AnthroAddIn
                                        ,
                                        "Save As DXF",
                                        DXFPicture, DXFPicture)
+                m_dimensionFlatButtonDef = controlDefs.AddButtonDefinition("Dimension Flat", _
+                                       "DimensionFlat",
+                                       CommandTypesEnum.kNonShapeEditCmdType,
+                                       m_ClientID, _
+                                       ,
+                                       "Create Dimensioned Flat",
+                                       DXFPicture, DXFPicture)
 
                 If firstTime Then
 
@@ -307,6 +315,7 @@ Namespace AnthroAddIn
                     toolsMeasurePanel.CommandControls.AddButton(m_calculateTopAreaComponentButtonDef)
                     sketchPanel.CommandControls.AddButton(m_drawRectangleComponentButtonDef)
                     sheetmetalPanelCreate.CommandControls.AddButton(m_createComponentPlaceholderButtonDef)
+                    sheetmetalPanelCreate.CommandControls.AddButton(m_dimensionFlatButtonDef)                    
                     m_createComponentPlaceholderButtonDef.Enabled = False
 
                 End If
@@ -370,6 +379,9 @@ Namespace AnthroAddIn
 
             Marshal.ReleaseComObject(m_saveAsDXFFromAssemblyButtonDef)
             m_saveAsDXFFromAssemblyButtonDef = Nothing
+
+            Marshal.ReleaseComObject(m_dimensionFlatButtonDef)
+            m_dimensionFlatButtonDef = Nothing
 
             System.GC.WaitForPendingFinalizers()
             System.GC.Collect()
@@ -439,11 +451,11 @@ Namespace AnthroAddIn
                 Dim DrawingsListControls As Control.ControlCollection = saveAsDXFfromAssemblyDialog.DrawingsListFormControls
 
                 Dim AcceptPosition As System.Drawing.Point
-                AcceptPosition.X = iPrintDrawingsfromAssemblyDialogWidth - 170
+                AcceptPosition.X = iPrintDrawingsfromAssemblyDialogWidth - 180
                 AcceptPosition.Y = iPrintDrawingsfromAssemblyDialogHeight - 65
 
                 Dim CancelPosition As System.Drawing.Point
-                CancelPosition.X = iPrintDrawingsfromAssemblyDialogWidth - 90
+                CancelPosition.X = iPrintDrawingsfromAssemblyDialogWidth - 100
                 CancelPosition.Y = iPrintDrawingsfromAssemblyDialogHeight - 65
 
                 Dim SelectAllPosition As System.Drawing.Point
@@ -488,11 +500,11 @@ Namespace AnthroAddIn
                 Dim invDocs As Documents = m_inventorApplication.Documents
 
                 Dim AcceptPosition As System.Drawing.Point
-                AcceptPosition.X = iPartsDialogWidth - 170
+                AcceptPosition.X = iPartsDialogWidth - 180
                 AcceptPosition.Y = iPartsDialogHeight - 65
 
                 Dim CancelPosition As System.Drawing.Point
-                CancelPosition.X = iPartsDialogWidth - 90
+                CancelPosition.X = iPartsDialogWidth - 100
                 CancelPosition.Y = iPartsDialogHeight - 65
 
                 Dim SelectAllPosition As System.Drawing.Point
@@ -522,11 +534,11 @@ Namespace AnthroAddIn
                 Dim DrawingsListControls As Control.ControlCollection = exportDWFxfromAssemblyDialog.DrawingsListFormControls
 
                 Dim AcceptPosition As System.Drawing.Point
-                AcceptPosition.X = iExportDWFxfromAssemblyDialogWidth - 170
+                AcceptPosition.X = iExportDWFxfromAssemblyDialogWidth - 180
                 AcceptPosition.Y = iExportDWFxfromAssemblyDialogHeight - 65
 
                 Dim CancelPosition As System.Drawing.Point
-                CancelPosition.X = iExportDWFxfromAssemblyDialogWidth - 90
+                CancelPosition.X = iExportDWFxfromAssemblyDialogWidth - 100
                 CancelPosition.Y = iExportDWFxfromAssemblyDialogHeight - 65
 
                 Dim SelectAllPosition As System.Drawing.Point
@@ -567,11 +579,11 @@ Namespace AnthroAddIn
                 Dim DrawingsListControls As Control.ControlCollection = printDrawingsfromAssemblyDialog.DrawingsListFormControls
 
                 Dim AcceptPosition As System.Drawing.Point
-                AcceptPosition.X = iPrintDrawingsfromAssemblyDialogWidth - 170
+                AcceptPosition.X = iPrintDrawingsfromAssemblyDialogWidth - 180
                 AcceptPosition.Y = iPrintDrawingsfromAssemblyDialogHeight - 65
 
                 Dim CancelPosition As System.Drawing.Point
-                CancelPosition.X = iPrintDrawingsfromAssemblyDialogWidth - 90
+                CancelPosition.X = iPrintDrawingsfromAssemblyDialogWidth - 100
                 CancelPosition.Y = iPrintDrawingsfromAssemblyDialogHeight - 65
 
                 Dim SelectAllPosition As System.Drawing.Point
@@ -1224,11 +1236,14 @@ Namespace AnthroAddIn
 
         End Sub
 
+        Private Sub m_dimensionFlatButtonDef_OnExecute(ByVal Context As Inventor.NameValueMap) Handles m_dimensionFlatButtonDef.OnExecute
+            Dim m_dimensionFlat As New DimensionFlat
+
+            m_dimensionFlat.FlatPlusDims(m_inventorApplication)
+
+        End Sub
 #End Region
 
     End Class
-
-       
-
 
 End Namespace

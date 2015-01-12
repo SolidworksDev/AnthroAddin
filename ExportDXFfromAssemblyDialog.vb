@@ -6,7 +6,7 @@ Public Class ExportDXFfromAssemblyDialog
 
     Public invApp As Inventor.Application
     Public DocList As New DXFDocuments
-    Public strDXFLocation As String = "\\Svr12\trumpf_pdm2\TRUMPF.NET\dxf\"
+    Public strDXFLocation As String = "\\svr12T\TRUMPF.NET\DXF\"
     Private bAllChecked As Boolean = False
 
     ' Create a property so the controls can be easily retrieved.

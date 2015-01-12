@@ -2,11 +2,11 @@
 Imports System.IO
 Imports System.Security
 Imports System.Windows.Forms
-Imports AnthroAddIn.Security
-Imports AnthroAddIn.DocumentSvc
 Imports System.Collections.Generic
 Imports System.Security.Principal.WindowsIdentity
 Imports System.IO.Path
+Imports VDF = Autodesk.DataManagement.Client.Framework
+Imports ACW = Autodesk.Connectivity.WebServices
 
 Public Class saveAsDXFfromAssemblyDialog
 
@@ -130,7 +130,7 @@ Public Class saveAsDXFfromAssemblyDialog
             Exit Sub
         End If
 
-        Dim files() As DocumentSvc.File = {}
+        Dim files() As ACW.File = {}
         Dim vaultService As New VaultServices
 
         Dim i As Integer
@@ -221,13 +221,15 @@ Public Class saveAsDXFfromAssemblyDialog
                 'Make the call to Vault to get the potential files to download.
                 'The list is potential because there is no garantee that there is a drawing
                 'file for every document selected.
-                files = serverLogin.docSvc.FindLatestFilesByPaths(drawingFiles)
+                files = serverLogin.connection.WebServiceManager.DocumentService.FindLatestFilesByPaths(drawingFiles)
 
-                'Iterate through the list of files to down load
-                'Error checking for the existence of files is handled in the Vaultservices class
-                For i = 0 To files.Length - 1
-                    vaultService.Execute(files(i), downloadFiles(i), serverLogin)
+                Dim fileIters As List(Of VDF.Vault.Currency.Entities.FileIteration) = New List(Of VDF.Vault.Currency.Entities.FileIteration)
+                For Each vFile In files
+                    fileIters.Add(New VDF.Vault.Currency.Entities.FileIteration(serverLogin.connection, vFile))
                 Next
+
+                'Error checking for the existence of files is handled in the Vaultservices class
+                vaultService.Execute(fileIters, downloadFiles, serverLogin)
 
                 'We are finished with the Vault services so log out of the Vault
                 serverLogin.LogoutOfVault()

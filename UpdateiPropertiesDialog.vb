@@ -1,10 +1,11 @@
 ﻿Imports Inventor
 Imports System.IO
 Imports AnthroAddIn.ServerLogin
-Imports AnthroAddIn.DocumentSvc
 Imports System.Windows.Forms
 Imports System.Collections.Generic
 Imports System.IO.Path
+Imports VDF = Autodesk.DataManagement.Client.Framework
+Imports ACW = Autodesk.Connectivity.WebServices
 
 Public Class UpdateiPropertiesDialog
 
@@ -15,6 +16,7 @@ Public Class UpdateiPropertiesDialog
     Private bAllChecked As Boolean = False
     Private bLeaveiPropDlg As Boolean = False
     Public verifyList As New ArrayList
+    Private invAsmDoc As AssemblyDocument
 
     ' Create a property so the controls can be easily retrieved.
     Public ReadOnly Property DocumentListFormControls() As Control.ControlCollection
@@ -53,11 +55,10 @@ Public Class UpdateiPropertiesDialog
             newList.Height = 270
             newList.Location = ListPosition
 
-            Dim invAsmDoc As AssemblyDocument
             Dim DocName As String
 
             invAsmDoc = invApp.ActiveDocument
-            DocName = invAsmDoc.DisplayName + ".iam"
+            DocName = System.IO.Path.GetFileName(invAsmDoc.FullDocumentName)
             newList.Items.Add(DocName)
             If ShowUnApproved.Checked And IsApproved(invAsmDoc) Then
                 newList.Items.Remove(DocName)
@@ -73,13 +74,13 @@ Public Class UpdateiPropertiesDialog
                 If IsDoc(invRefDoc.DisplayName) Then
                     Select Case invRefDoc.DocumentType
                         Case Inventor.DocumentTypeEnum.kAssemblyDocumentObject
-                            strListName = invRefDoc.DisplayName + ".iam"
+                            strListName = System.IO.Path.GetFileName(invRefDoc.FullDocumentName)
                             newList.Items.Add(strListName)
                             If ShowUnApproved.Checked And IsApproved(invRefDoc) Then
                                 newList.Items.Remove(strListName)
                             End If
                         Case Inventor.DocumentTypeEnum.kPartDocumentObject
-                            strListName = invRefDoc.DisplayName + ".ipt"
+                            strListName = System.IO.Path.GetFileName(invRefDoc.FullDocumentName)
                             newList.Items.Add(strListName)
                             If ShowUnApproved.Checked And IsApproved(invRefDoc) Then
                                 newList.Items.Remove(strListName)
@@ -184,8 +185,13 @@ Public Class UpdateiPropertiesDialog
 
     Private Sub CheckinDoc(ByVal invDoc As Document)
 
-        Dim bytes() As Byte
-        Dim vaultFile() As DocumentSvc.File
+        Dim stream As System.IO.Stream
+        Dim file() As ACW.File
+        Dim fileIter As VDF.Vault.Currency.Entities.FileIteration
+        Dim returnFileIter As VDF.Vault.Currency.Entities.FileIteration
+        Dim vaultService As New VaultServices        
+
+
         Dim fullPath As String = invDoc.FullDocumentName
         Dim fullDocName() As String = {invDoc.FullDocumentName}
         Dim oDate As Date
@@ -197,8 +203,9 @@ Public Class UpdateiPropertiesDialog
         Try
 
             fullDocName = {invDoc.FullDocumentName.Replace("C:\_Vault_Working_Folder", "$").Replace("\", "/")}
-            vaultFile = serverLogin.docSvc.FindLatestFilesByPaths(fullDocName)
 
+            file = serverLogin.connection.WebServiceManager.DocumentService.FindLatestFilesByPaths(fullDocName)
+            fileIter = New VDF.Vault.Currency.Entities.FileIteration(serverLogin.connection, file(0))
 
             If invRefDocs.Count <> 0 Then
 
@@ -206,37 +213,30 @@ Public Class UpdateiPropertiesDialog
                     strRefDocs(j) = invRefDocs.Item(j + 1).FullDocumentName.Replace("C:\_Vault_Working_Folder", "$").Replace("\", "/")
                 Next
 
-                Dim dependentRefFiles() As DocumentSvc.File = serverLogin.docSvc.FindLatestFilesByPaths(strRefDocs)
+                Dim dependentRefFiles() As ACW.File = serverLogin.connection.WebServiceManager.DocumentService.FindLatestFilesByPaths(strRefDocs)
                 Dim dependentRefFileIds(0 To dependentRefFiles.Length - 1) As Long
                 Dim dependentRefSources(0 To dependentRefFiles.Length - 1) As String
 
                 For j = 0 To dependentRefFiles.Length - 1
                     dependentRefFileIds(j) = dependentRefFiles(j).Id
                     dependentRefSources(j) = Nothing
-
                 Next
 
-                bytes = System.IO.File.ReadAllBytes(invDoc.FullDocumentName)
+                stream = New FileStream(invDoc.FullDocumentName, FileMode.Open, FileAccess.ReadWrite)
                 oDate = System.IO.File.GetLastAccessTime(invDoc.FullDocumentName)
-                serverLogin.docSvc.CheckinFile(vaultFile(0).MasterId, "Drawing Approval", False,
-                                                   oDate, Nothing, Nothing, True,
-                                                   vaultFile(0).Name, vaultFile(0).FileClass, vaultFile(0).Hidden, bytes)
 
-                info.IsReadOnly = False
-                info.CreationTime = vaultFile(0).CreateDate
-                info.IsReadOnly = True
+                returnFileIter = serverLogin.connection.FileManager.CheckinFile(fileIter, "Drawing Approval", False,
+                                                  oDate, Nothing, Nothing, True,
+                                                  Nothing, file(0).FileClass, False, stream)               
+
 
             Else
 
-                bytes = System.IO.File.ReadAllBytes(invDoc.FullDocumentName)
+                stream = New FileStream(invDoc.FullDocumentName, FileMode.Open, FileAccess.ReadWrite)
                 oDate = System.IO.File.GetLastAccessTime(invDoc.FullDocumentName)
-                serverLogin.docSvc.CheckinFile(vaultFile(0).MasterId, "Drawing Approval", False,
+                returnFileIter = serverLogin.connection.FileManager.CheckinFile(fileIter, "Drawing Approval", False,
                                                    oDate, Nothing, Nothing, True,
-                                                   vaultFile(0).Name, vaultFile(0).FileClass, vaultFile(0).Hidden, bytes)
-
-                info.IsReadOnly = False
-                info.CreationTime = vaultFile(0).CreateDate
-                info.IsReadOnly = True
+                                                   Nothing, file(0).FileClass, False, stream)                
 
             End If
 
@@ -249,11 +249,10 @@ Public Class UpdateiPropertiesDialog
     Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAccept.Click
 
         Dim invDocs As Documents = invApp.Documents                      
-        Dim ecoPosition As Point2d = Nothing
-        Dim drawingFiles() As DocumentSvc.File = {}
-        Dim refFiles() As DocumentSvc.File = {}
+        Dim drawingFiles() As ACW.File = {}
+        Dim refFiles() As ACW.File = {}
         Dim strDrawingFiles() As String = {}
-        Dim strDownloadFiles() As String = {}       
+        Dim strDownloadFiles() As String = {}
         Dim strRefFiles() As String = Nothing
         Dim strFolders() As String = {}
         Dim strLocalPath() As String = Nothing
@@ -261,13 +260,10 @@ Public Class UpdateiPropertiesDialog
         Dim invCurrentRefDoc As Document
         Dim invCurrentDrawingDoc As Document
         Dim invCurrentRefPartDoc As Document
-        Dim bytes As Byte() = {}
-        Dim machineName As String = System.Environment.MachineName
-        Dim folders() As DocumentSvc.Folder
         Dim verifyForm As New VerifyForm
         Dim DrawingListcontrols As Control.ControlCollection = verifyForm.DrawingListFormControls
         Dim progress As New ProgressDialog
-
+       
         serverLogin.LoginToVault(HOST)
 
         Try
@@ -275,29 +271,36 @@ Public Class UpdateiPropertiesDialog
             Me.Visible = False
             Me.Cursor = Cursors.WaitCursor
 
+            Dim ListBox As New List(Of String)
+            Dim ListBoxControl As New CheckedListBox
+
             For Each aControl In Me.Controls
                 If TypeName(aControl) = "CheckedListBox" Then
-                    If CType(aControl, CheckedListBox).CheckedItems.Count <> 0 Then
-                        For Each anObject In CType(aControl, CheckedListBox).CheckedItems
-                            If TypeOf anObject Is String Then
-                                Dim currentDoc As New iPropDocs
-                                currentDoc.SetRefFile(anObject.ToString)
-                                docsList.Add(currentDoc)                            
-                            End If
-                        Next
-                    Else
-                        Me.Cursor = Cursors.Default
-                        MsgBox("You muse select at least" & Chr(13) & "one document from the list", MsgBoxStyle.Critical, "Select a part")
-                        Me.Visible = True
-                        Exit Sub
-                    End If
+                    ListBoxControl = aControl
                 End If
             Next
 
+            If ListBoxControl.CheckedItems.Count = 0 Then
+                Me.Cursor = Cursors.Default
+                MsgBox("You muse select at least" & Chr(13) & "one document from the list", MsgBoxStyle.Critical, "Select a part")
+                Me.Visible = True
+                Exit Sub
+            Else
+                For Each anObject In ListBoxControl.CheckedItems
+                    If TypeOf anObject Is String Then
+                        Dim currentDoc As New iPropDocs
+                        currentDoc.SetRefFile(anObject.ToString)
+                        docsList.Add(currentDoc)
+                    End If
+                Next
+            End If
+
             For i = 0 To docsList.Count - 1
-                Dim CurrentDoc As String = RemoveExt(docsList.Item(i).GetRefFile())
+                Dim CurrentDoc As String = docsList.Item(i).GetRefFile()
+                Dim CurrentDisplayName As String
                 For j = 1 To invDocs.Count
-                    If CurrentDoc = invDocs.Item(j).DisplayName() Then
+                    CurrentDisplayName = System.IO.Path.GetFileName(invDocs.Item(j).FullDocumentName())
+                    If CurrentDoc = CurrentDisplayName Then
                         docsList.Item(i).SetRefIndex(j)
                         docsList.Item(i).SetFullRefName(invDocs.Item(j).FullDocumentName())
                         docsList.Item(i).SetFullDawingName(ChangeExtension(invDocs.Item(j).FullDocumentName(), "idw"))
@@ -313,7 +316,7 @@ Public Class UpdateiPropertiesDialog
             ReDim strDownloadFiles(0 To docsList.Count - 1)
             ReDim strFolders(0 To docsList.Count - 1)
             ReDim strRefFiles(0 To docsList.Count - 1)
-            ReDim strLocalPath(0 To docsList.Count - 1)            
+            ReDim strLocalPath(0 To docsList.Count - 1)
 
             For i = 0 To docsList.Count - 1
                 strDrawingFiles(i) = docsList.Item(i).GetDrawingVaultPathName()
@@ -345,22 +348,21 @@ Public Class UpdateiPropertiesDialog
                 progress.ProgressBar1.Maximum = docsList.Count
                 progress.ProgressBar1.Value = 0
 
-                Dim FoldersString As String = strFolders(0).ToString + Chr(13)
-
-                For i = 1 To strFolders.Length - 1
-                    FoldersString = FoldersString + strFolders(i).ToString + Chr(13)
-                Next
-
-                folders = serverLogin.docSvc.GetFoldersByPaths(strFolders)
-
-                For i = 0 To folders.Length - 1
-                    FoldersString = FoldersString + folders(i).FullName + Chr(13)
-                Next
-
                 'Get the latest version of the drawing files from the Vault server
-                drawingFiles = serverLogin.docSvc.FindLatestFilesByPaths(strDrawingFiles)
+                drawingFiles = serverLogin.connection.WebServiceManager.DocumentService.FindLatestFilesByPaths(strDrawingFiles)
 
-                'Tag any drawings that do no exist by setting there name to Nothing
+                Dim drawingfileIters As List(Of VDF.Vault.Currency.Entities.FileIteration) = New List(Of VDF.Vault.Currency.Entities.FileIteration)
+
+                For i = 0 To strDownloadFiles.Length - 1
+
+                    If drawingFiles(i).Name = Nothing Then
+                        MessageBox.Show("No drawing found for" + Chr(13) + strDrawingFiles(i))
+                    Else
+                        drawingfileIters.Add(New VDF.Vault.Currency.Entities.FileIteration(serverLogin.connection, drawingFiles(i)))
+                    End If
+
+                Next
+
                 For i = 0 To drawingFiles.Length - 1
                     If drawingFiles(i).Name = Nothing Then
                         docsList.Item(i).SetDrawingFile(Nothing)
@@ -368,11 +370,7 @@ Public Class UpdateiPropertiesDialog
                 Next
 
                 'Download the latest version of the drawing files and write them to the local disk
-                For i = 0 To drawingFiles.Length - 1
-                    If drawingFiles(i).Name <> Nothing Then
-                        vaultService.Execute(drawingFiles(i), strDownloadFiles(i), serverLogin)
-                    End If
-                Next
+                vaultService.Execute(drawingfileIters, strDownloadFiles, serverLogin, True)
 
                 progress.Show(New WindowWrapper(invApp.MainFrameHWND))
 
@@ -384,7 +382,15 @@ Public Class UpdateiPropertiesDialog
                 Next
 
                 'Get the latest version of the Ref files from the Vault server
-                refFiles = serverLogin.docSvc.FindLatestFilesByPaths(strRefFiles)
+                refFiles = serverLogin.connection.WebServiceManager.DocumentService.FindLatestFilesByPaths(strRefFiles)
+
+                Dim fileIters As List(Of VDF.Vault.Currency.Entities.FileIteration) = New List(Of VDF.Vault.Currency.Entities.FileIteration)
+
+                For Each vFile In refFiles
+                    fileIters.Add(New VDF.Vault.Currency.Entities.FileIteration(serverLogin.connection, vFile))
+                Next
+
+                vaultService.CheckoutFiles(fileIters, serverLogin)
 
                 'Check out the ref files
                 For i = 0 To docsList.Count - 1
@@ -393,20 +399,10 @@ Public Class UpdateiPropertiesDialog
 
                     If docsList(i).GetDrawingFile <> Nothing Then
 
-                        If Not refFiles(i).CheckedOut Then
-                            serverLogin.docSvc.CheckoutFile(folders(i).Id, refFiles(i).Id, CheckoutFileOptions.Master,
-                                                            machineName, strLocalPath(i), "", False, False, bytes)
-                        End If
-
-                        If Not drawingFiles(i).CheckedOut Then
-                            serverLogin.docSvc.CheckoutFile(folders(i).Id, drawingFiles(i).Id, CheckoutFileOptions.Master,
-                                                            machineName, strLocalPath(i), "", False, False, bytes)
-                        End If
-
                         invCurrentRefDoc = invDocs.ItemByName(docsList.Item(i).GetRefPathName())
-                        invCurrentDrawingDoc = invDocs.ItemByName(docsList.Item(i).GetDrawingPathName())                       
+                        invCurrentDrawingDoc = invDocs.ItemByName(docsList.Item(i).GetDrawingPathName())
 #If DEBUG Then
-
+                        'Don't change iProperties of drawings in debug mode
 #Else
                         MoveECOBlocks(invCurrentRefDoc, invCurrentDrawingDoc)
                         SetiProperty(invCurrentRefDoc)
@@ -415,46 +411,45 @@ Public Class UpdateiPropertiesDialog
                         If invCurrentRefDoc.DocumentType = DocumentTypeEnum.kAssemblyDocumentObject Then
 
                             Dim strRefPartDoc As String = ChangeExtension(invCurrentRefDoc.FullDocumentName, ".ipt")
-                            
 
                             If My.Computer.FileSystem.FileExists(strRefPartDoc) Then
 
-
                                 invCurrentRefPartDoc = invDocs.ItemByName(strRefPartDoc)
                                 SetiProperty(invCurrentRefPartDoc)
+                                Dim strPartFile() As String = {""}
+                                strPartFile(0) = strRefPartDoc
                                 Dim VaultPath() As String = {""}
                                 VaultPath(0) = strRefPartDoc.Replace("C:\_Vault_Working_Folder", "$").Replace("\", "/")
-                                Dim PartrefFiles() As DocumentSvc.File = {}
-                                PartrefFiles = serverLogin.docSvc.FindLatestFilesByPaths(VaultPath)
+                                Dim PartrefFiles() As ACW.File = {}
+                                PartrefFiles = serverLogin.connection.WebServiceManager.DocumentService.FindLatestFilesByPaths(VaultPath)
+
+                                Dim partfileIters As List(Of VDF.Vault.Currency.Entities.FileIteration) = New List(Of VDF.Vault.Currency.Entities.FileIteration)
+                                partfileIters.Add(New VDF.Vault.Currency.Entities.FileIteration(serverLogin.connection, PartrefFiles(0)))
 
                                 If Not PartrefFiles(0).CheckedOut Then
-                                    serverLogin.docSvc.CheckoutFile(folders(i).Id, PartrefFiles(0).Id, CheckoutFileOptions.Master,
-                                                                    machineName, strLocalPath(i), "", False, False, bytes)
+                                    vaultService.CheckoutFiles(partfileIters, serverLogin)
                                 End If
-
-
 #If DEBUG Then
-
+                                'Don't check in files in debug mode
 #Else
                                 SetiProperty(invCurrentRefPartDoc)
                                 CheckinDoc(invCurrentRefPartDoc)
 #End If
+
                             End If
 
                         End If
-                        
 
                         invApp.SilentOperation = True
                         invCurrentDrawingDoc.Save2(True)
                         invApp.SilentOperation = False
-                       
+
 #If DEBUG Then
                         'Don't check in files when debugging                       
 #Else
                         CheckinDoc(invCurrentRefDoc)
                         CheckinDoc(invCurrentDrawingDoc)
-#End If
-
+#End If                       
 
                     End If
                 Next
@@ -469,7 +464,7 @@ Public Class UpdateiPropertiesDialog
                 Me.Visible = True
 
             End If
-                        
+
         Catch ex As Exception
             progress.Close()
             MessageBox.Show(ex.ToString)

@@ -2,8 +2,6 @@
 Imports System.IO
 Imports System.Security
 Imports System.Windows.Forms
-Imports AnthroAddIn.Security
-Imports AnthroAddIn.DocumentSvc
 Imports System.Collections.Generic
 Imports System.Security.Principal.WindowsIdentity
 

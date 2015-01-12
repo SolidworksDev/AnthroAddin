@@ -1,15 +1,14 @@
 ﻿Imports System.Windows.Forms
 Imports System.Security
-Imports AnthroAddIn.Security
-Imports AnthroAddIn.DocumentSvc
 Imports System.Security.Principal.WindowsIdentity
+Imports ACW = Autodesk.Connectivity.WebServices
+Imports VDF = Autodesk.DataManagement.Client.Framework
 
 Public Class ServerLogin
 
-    Public secSvc As SecurityService = New SecurityService()
-    Public docSvc As DocumentService = New DocumentService()
-    Public LoggedIn As Boolean = False
-    Private Shared MAX_FILE_SIZE_BYTES As Integer = 49 * 1024 * 1024
+    Public results As VDF.Vault.Results.LogInResult
+    Public connection As VDF.Vault.Currency.Connections.Connection
+    Public LoggedIn As Boolean = False    
 
     Public Sub LoginToVault(ByVal serverName As String)
 
@@ -37,21 +36,15 @@ Public Class ServerLogin
         
         Try
 
-            secSvc.SecurityHeaderValue = New Global.AnthroAddIn.Security.SecurityHeader()
-            secSvc.Url = "http://" + serverName + "/AutodeskDM/Services/SecurityService.asmx"
             Try
-                secSvc.SignIn(strUserName, "1234", "Anthro_Vault")
+                results = VDF.Vault.Library.ConnectionManager.LogIn("svr19", "Anthro_Vault", "CliftT", "1234", VDF.Vault.Currency.Connections.AuthenticationFlags.Standard, Nothing)
             Catch ex As Exception
                 'Throw New Exception("An error occured while logging into the Vault Server for user: " + strUserName)
                 MessageBox.Show("Vault login failed for user: " + strUserName + Chr(13) + "Vault services may be down at this time" + Chr(13) + "Please contact the Vault Administrator")
                 Exit Sub
             End Try
 
-            docSvc.SecurityHeaderValue = New DocumentSvc.SecurityHeader()
-            docSvc.SecurityHeaderValue.UserId = secSvc.SecurityHeaderValue.UserId
-            docSvc.SecurityHeaderValue.Ticket = secSvc.SecurityHeaderValue.Ticket
-            docSvc.Url = "http://" + serverName + "/AutodeskDM/Services/DocumentService.asmx"
-
+            connection = results.Connection
 
         Catch ex As Exception
             MessageBox.Show("Vault login failed for user: " + strUserName + Chr(13) + "Vault services may be down at this time" + Chr(13) + "Please contact the Vault Administrator")
@@ -63,7 +56,7 @@ Public Class ServerLogin
     End Sub
 
     Public Sub LogoutOfVault()
-        secSvc.SignOut()
+        VDF.Vault.Library.ConnectionManager.LogOut(connection)
         LoggedIn = False
     End Sub
 

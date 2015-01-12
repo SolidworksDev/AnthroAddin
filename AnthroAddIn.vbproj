@@ -12,7 +12,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <ProjectGuid>{DADD5657-C173-401A-8A1F-53018F4A932F}</ProjectGuid>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <OldToolsVersion>2.0</OldToolsVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -42,6 +42,7 @@
     <DebugType>Full</DebugType>
     <RegisterForComInterop>false</RegisterForComInterop>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -53,6 +54,7 @@
     <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
     <DebugType>none</DebugType>
     <RegisterForComInterop>false</RegisterForComInterop>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -79,6 +81,19 @@
     <AssemblyOriginatorKeyFile>SighKey\AnthroKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autodesk.Connectivity.WebServices">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Autodesk Vault 2015 SDK\bin\Autodesk.Connectivity.WebServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Autodesk.DataManagement.Client.Framework">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Autodesk Vault 2015 SDK\bin\Autodesk.DataManagement.Client.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Autodesk.DataManagement.Client.Framework.Vault">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Autodesk Vault 2015 SDK\bin\Autodesk.DataManagement.Client.Framework.Vault.dll</HintPath>
+    </Reference>
+    <Reference Include="Autodesk.DataManagement.Client.Framework.Vault.Forms">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Autodesk\Autodesk Vault 2015 SDK\bin\Autodesk.DataManagement.Client.Framework.Vault.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -89,6 +104,7 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Services" />
@@ -109,6 +125,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="AssemblyInfo.vb" />
+    <Compile Include="DimensionFlat.vb" />
     <Compile Include="SaveAsDXFfromAssemblyDialog.Designer.vb">
       <DependentUpon>SaveAsDXFfromAssemblyDialog.vb</DependentUpon>
     </Compile>
@@ -197,16 +214,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="StandardAddInServer.vb" />
-    <Compile Include="Web References\DocumentSvc\Reference.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
-    <Compile Include="Web References\Security\Reference.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -277,124 +284,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="Web References\DocumentSvc\BlkThres1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\BOM1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\BreakDesignVisualizationLinkCommandList1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\CompProp1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\CtntSrcPropDef1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\DocRestric1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\DocRestricArray1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\Documentservice.wsdl" />
-    <None Include="Web References\DocumentSvc\File1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FileArray1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FileAssocArray1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FileAssocRestric1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FileDelRestric1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FileDelRestricArray1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FileDelRestricEx1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FileDelStatus1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FileFolder1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FileNmngDescr1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FileNmngSchm1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FilePath1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FilePathArray1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FileRenameRestric1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FileRenameRestricArray1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\Folder1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FolderArray1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FolderDelRestric1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\FolderDelRestricArray1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\Label1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\Lnk1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\NumSchm1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\PropDef1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\PropInst1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\DocumentSvc\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.vb</LastGenOutput>
-    </None>
-    <None Include="Web References\DocumentSvc\SrchStatus1.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\Security\ACL.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\Security\EntsAndACLs.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\Security\License.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\Security\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.vb</LastGenOutput>
-    </None>
-    <None Include="Web References\Security\SecRestric.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\Security\Securityservice.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\folder.ico" />
@@ -439,8 +328,6 @@
     <None Include="Resources\Draw.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web References\Security\Securityservice.disco" />
-    <None Include="Web References\DocumentSvc\Documentservice.disco" />
     <None Include="Resources\TopArea.ico" />
     <None Include="Resources\SlotFeature.bmp" />
     <None Include="Resources\electricity.ico" />
@@ -458,28 +345,7 @@
     <Content Include="Resources\edit.ico" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://svr19/AutodeskDM/services/Documentservice.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\DocumentSvc\</RelPath>
-      <UpdateFromURL>http://svr19/AutodeskDM/services/Documentservice.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>AnthroAddIn_DocumentSrv_DocumentService</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="http://svr19/AutodeskDM/services/Securityservice.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\Security\</RelPath>
-      <UpdateFromURL>http://svr19/AutodeskDM/services/Securityservice.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>AnthroAddIn_Security_SecurityService</CachedSettingsPropName>
-    </WebReferenceUrl>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
@@ -488,11 +354,9 @@
     <PostBuildEvent>call "%25VS100COMNTOOLS%25vsvars32"
 mt.exe -manifest "$(ProjectDir)AnthroAddin.X.manifest" -outputresource:"$(TargetPath)";#2
 
-xcopy /y "$(ProjectDir)Autodesk.AnthroAddin.Inventor.addin" "$(AppData)\Autodesk\Inventor 2014\Addins\"
+xcopy /y "$(ProjectDir)Autodesk.AnthroAddin.Inventor.addin" "$(AppData)\Autodesk\Inventor 2015\Addins\"
 
-xcopy /y "$(ProjectDir)\bin\Debug\AnthroAddin.dll" "C:\Users\tclift\Documents\Inventor\AnthroAddin"
 echo $(AppData)
-
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

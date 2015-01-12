@@ -95,7 +95,7 @@ Partial Class printDrawingsfromAssemblyDialog
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(267, 333)
+        Me.ClientSize = New System.Drawing.Size(268, 332)
         Me.Controls.Add(Me.SelectUnApproved)
         Me.Controls.Add(Me.rbtnPrintFiles)
         Me.Controls.Add(Me.rbtnOpenFile)

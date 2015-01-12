@@ -4,11 +4,11 @@ Imports System.IO
 Imports System.IO.File
 Imports System.Security
 Imports System.Windows.Forms
-Imports AnthroAddIn.Security
-Imports AnthroAddIn.DocumentSvc
 Imports System.Collections.Generic
 Imports System.Security.Principal.WindowsIdentity
 Imports System.IO.Path
+Imports ACW = Autodesk.Connectivity.WebServices
+Imports VDF = Autodesk.DataManagement.Client.Framework
 
 Public Class ExportDWFxfromAssemblyDialog
 
@@ -99,7 +99,7 @@ Public Class ExportDWFxfromAssemblyDialog
 
         serverLogin.LoginToVault(HOST)
 
-        Dim files() As DocumentSvc.File = {}
+        Dim files() As ACW.File = {}
 
         Dim vaultService As New VaultServices
 
@@ -215,13 +215,13 @@ Public Class ExportDWFxfromAssemblyDialog
                 'Make the call to Vault to get the potential files to download.
                 'The list is potential because there is no garantee that there is a drawing
                 'file for every document selected.
-                files = serverLogin.docSvc.FindLatestFilesByPaths(strDrawingFiles)
+                'files = serverLogin.docSvc.FindLatestFilesByPaths(strDrawingFiles)
 
                 'Iterate through the list of files to down load
                 'Error checking for the existence of files is handled in the Vaultservices class
                 For i = 0 To files.Length - 1
                     If files(i).Name <> Nothing Then
-                        vaultService.Execute(files(i), strDownloadFiles(i), serverLogin)
+                        vaultService.Execute(files(i), strDownloadFiles, serverLogin)
                     End If
                 Next
 

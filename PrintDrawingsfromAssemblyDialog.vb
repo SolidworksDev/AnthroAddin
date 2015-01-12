@@ -2,11 +2,11 @@
 Imports System.IO
 Imports System.Security
 Imports System.Windows.Forms
-Imports AnthroAddIn.Security
-Imports AnthroAddIn.DocumentSvc
 Imports System.Collections.Generic
 Imports System.Security.Principal.WindowsIdentity
 Imports System.IO.Path
+Imports ACW = Autodesk.Connectivity.WebServices
+Imports VDF = Autodesk.DataManagement.Client.Framework
 
 Public Class printDrawingsfromAssemblyDialog
 
@@ -83,6 +83,7 @@ Public Class printDrawingsfromAssemblyDialog
             Dim strFirstnewLisName As String
             Dim strSecondnewListName As String
             Dim inewListCount As Integer = newList.Items.Count - 1
+            newList.Sorted = True
 
             For i = 0 To newList.Items.Count - 1
                 If i < inewListCount Then
@@ -98,7 +99,6 @@ Public Class printDrawingsfromAssemblyDialog
             Next
 
             inControls.Add(newLable)
-            newList.Sorted = True
             inControls.Add(newList)
 
         Catch ex As Exception
@@ -133,7 +133,8 @@ Public Class printDrawingsfromAssemblyDialog
             Exit Sub
         End If
 
-        Dim files() As DocumentSvc.File = {}
+        Dim files() As ACW.File = {}
+
         Dim vaultService As New VaultServices
 
         Dim i As Integer
@@ -225,7 +226,7 @@ Public Class printDrawingsfromAssemblyDialog
                 verifyForm.Icon = My.Resources.FileFolder
             End If
 
-            verifyForm.ShowDialog()
+            verifyForm.ShowDialog(New WindowWrapper(invApp.MainFrameHWND))
 
             If verifyForm.bAcceptClicked = True Then
 
@@ -234,19 +235,22 @@ Public Class printDrawingsfromAssemblyDialog
                 'Make the call to Vault to get the potential files to download.
                 'The list is potential because there is no garantee that there is a drawing
                 'file for every document selected.
-                files = serverLogin.docSvc.FindLatestFilesByPaths(drawingFiles)
+                files = serverLogin.connection.WebServiceManager.DocumentService.FindLatestFilesByPaths(drawingFiles)
+
+                Dim fileIters As List(Of VDF.Vault.Currency.Entities.FileIteration) = New List(Of VDF.Vault.Currency.Entities.FileIteration)
+                For Each vFile In files
+                    fileIters.Add(New VDF.Vault.Currency.Entities.FileIteration(serverLogin.connection, vFile))
+                Next
 
                 'Iterate through the list of files to down load
                 'Error checking for the existence of files is handled in the Vaultservices class
-                For i = 0 To files.Length - 1
-                    vaultService.Execute(files(i), downloadFiles(i), serverLogin)
-                Next
+                'vaultService.DownloadDialog(fileIters.Item(0), serverLogin, New WindowWrapper(invApp.MainFrameHWND))
+                vaultService.Execute(fileIters, downloadFiles, serverLogin)
 
                 'We are finished with the Vault services so log out of the Vault
                 serverLogin.LogoutOfVault()
 
                 Dim invDrawingDocs(downloadFiles.Length - 1) As DrawingDocument
-
 
                 'Iterate through all the files downloaded and open them as visable in Inventor
                 'This is needed because Inventor won't print a drawing file unless it is visable

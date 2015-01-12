@@ -23,7 +23,7 @@ Public Class DrawLineArt
 
         ' Declare a variable to hold the New Drawing Document
         Dim invDrawingDoc As DrawingDocument
-        invDrawingDoc = invDocs.Add(DocumentTypeEnum.kDrawingDocumentObject)
+        invDrawingDoc = invDocs.Add(DocumentTypeEnum.kDrawingDocumentObject, "\\svr19\Design\InventorData\Templates\LineArt.idw")
 
         ' Declare a variable to hold the Sheet for the new document
         Dim invSheet As Sheet
@@ -31,9 +31,6 @@ Public Class DrawLineArt
         invSheet.Size = DrawingSheetSizeEnum.kBDrawingSheetSize
         Dim invDrawingStyleManager As DrawingStylesManager
         invDrawingStyleManager = invDrawingDoc.StylesManager
-
-
-
 
         ' Create the placement point object.
         Dim invPoint As Point2d
@@ -73,8 +70,7 @@ Public Class DrawLineArt
         invMovePoint.X = 26
         invSideView.Position = invMovePoint
         invMovePoint.X = 16
-        invTopView.Position = invMovePoint
-        invISOView.DisplayTangentEdges = True
+        invTopView.Position = invMovePoint       
 
     End Sub
 

@@ -2,6 +2,8 @@
 Imports System.Windows.Forms
 Imports System.IO
 Imports Microsoft
+Imports ACW = Autodesk.Connectivity.WebServices
+Imports VDF = Autodesk.DataManagement.Client.Framework
 
 Public Class CreatePlaceHolderComponentDialog
 
@@ -19,17 +21,16 @@ Public Class CreatePlaceHolderComponentDialog
 
         Try
             serverLogin.LoginToVault(HOST)
-            Dim vaultFile() As DocumentSvc.File
-            Dim vaultFolder As DocumentSvc.Folder
-            Dim newVaultFolder As DocumentSvc.Folder
+            Dim vaultFile() As ACW.File
+            Dim vaultParentFolder As ACW.Folder
+            Dim newVaultFolder As ACW.Folder
             Dim strComponentPlaceholderName As String = VisualBasic.Left(cbxMaterialGroup.Text, 3) + "-" + txtbxComponentPartNumber.Text
             Dim strFullPartFileName() As String = {"$/Design/Autocad/Parts/" + cbxMaterialGroup.Text + "/" + strComponentPlaceholderName + "/" + strComponentPlaceholderName + ".ipt"}
             Dim strFullAssemblyFileName() As String = {"$/Design/Autocad/Parts/" + cbxMaterialGroup.Text + "/" + strComponentPlaceholderName + "/" + strComponentPlaceholderName + ".iam"}
             Dim strParentFolder As String = "$/Design/Autocad/Parts/" + cbxMaterialGroup.Text + "/"
-            Dim vaultParentFolder As DocumentSvc.Folder
 
             strFolderName = strComponentPlaceholderName
-            vaultFile = serverLogin.docSvc.FindLatestFilesByPaths(strFullPartFileName)
+            vaultFile = serverLogin.connection.WebServiceManager.DocumentService.FindLatestFilesByPaths(strFullPartFileName)
 
             If vaultFile(0).Id <> -1 Then
                 MessageBox.Show("The file " + strComponentPlaceholderName + ".ipt" + " already exist" _
@@ -37,7 +38,7 @@ Public Class CreatePlaceHolderComponentDialog
                 Exit Sub
             End If
 
-            vaultFile = serverLogin.docSvc.FindLatestFilesByPaths(strFullAssemblyFileName)
+            vaultFile = serverLogin.connection.WebServiceManager.DocumentService.FindLatestFilesByPaths(strFullAssemblyFileName)
 
             If vaultFile(0).Id <> -1 Then
                 MessageBox.Show("The file " + strComponentPlaceholderName + ".iam" + " already exist" _
@@ -59,7 +60,7 @@ Public Class CreatePlaceHolderComponentDialog
             Dim invExtrusion As ExtrudeFeature
             invExtrusion = invSheetMetalCompDef.Features.ExtrudeFeatures.AddByDistanceExtent(invFaceProfile, 0.00254, PartFeatureExtentDirectionEnum.kNegativeExtentDirection, PartFeatureOperationEnum.kJoinOperation)
             invSketch.Shared = False
-            invSketch.Visible = False            
+            invSketch.Visible = False
             Dim invTextBox As Inventor.TextBox = invTextSketch.TextBoxes.AddFitted(invTransGeom.CreatePoint2d(-1.18, 0.158), strFolderName)
             invTextBox.FormattedText = "<StyleOverride FontSize='0.3'>" & strFolderName & "</StyleOverride>"
             SetDescriptioniProp(invSheetMetalDoc)
@@ -69,11 +70,14 @@ Public Class CreatePlaceHolderComponentDialog
             invSheetMetalDoc.SaveAs(filePath + "\" + fileName, False)
 
             If rbtnCheckin.Checked = True Then
-                Dim bytes() As Byte = System.IO.File.ReadAllBytes(filePath + "\" + fileName)
-                vaultParentFolder = serverLogin.docSvc.GetFolderByPath(strParentFolder)
-                newVaultFolder = serverLogin.docSvc.AddFolder(strFolderName, vaultParentFolder.Id, False)
-                vaultFolder = serverLogin.docSvc.GetFolderById(newVaultFolder.Id)
-                serverLogin.docSvc.AddFile(vaultFolder.Id, fileName, "Initial check-in", System.IO.File.GetLastAccessTime(filePath), Nothing, Nothing, Nothing, False, bytes)
+
+                vaultParentFolder = serverLogin.connection.WebServiceManager.DocumentService.GetFolderByPath(strParentFolder)
+                newVaultFolder = serverLogin.connection.WebServiceManager.DocumentService.AddFolder(strFolderName, vaultParentFolder.Id, False)
+                Dim newVaultFolders As VDF.Vault.Currency.Entities.Folder = New VDF.Vault.Currency.Entities.Folder(serverLogin.connection, newVaultFolder)
+                Dim absFilePath As VDF.Currency.FilePathAbsolute = New VDF.Currency.FilePathAbsolute(filePath + "\" + fileName)
+
+                serverLogin.connection.FileManager.AddFile(newVaultFolders, "Initial check-in", Nothing, Nothing, ACW.FileClassification.None, False, absFilePath)
+
             End If
 
         Catch ex As Exception
