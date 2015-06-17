@@ -72,7 +72,12 @@ Public Class CreatePlaceHolderComponentDialog
             If rbtnCheckin.Checked = True Then
 
                 vaultParentFolder = serverLogin.connection.WebServiceManager.DocumentService.GetFolderByPath(strParentFolder)
-                newVaultFolder = serverLogin.connection.WebServiceManager.DocumentService.AddFolder(strFolderName, vaultParentFolder.Id, False)
+                newVaultFolder = serverLogin.connection.WebServiceManager.DocumentService.GetFolderByPath(strParentFolder + strFolderName)
+
+                If newVaultFolder Is Nothing Then
+                    newVaultFolder = serverLogin.connection.WebServiceManager.DocumentService.AddFolder(strFolderName, vaultParentFolder.Id, False)
+                End If
+
                 Dim newVaultFolders As VDF.Vault.Currency.Entities.Folder = New VDF.Vault.Currency.Entities.Folder(serverLogin.connection, newVaultFolder)
                 Dim absFilePath As VDF.Currency.FilePathAbsolute = New VDF.Currency.FilePathAbsolute(filePath + "\" + fileName)
 

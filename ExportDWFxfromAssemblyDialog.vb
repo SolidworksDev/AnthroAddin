@@ -14,6 +14,7 @@ Public Class ExportDWFxfromAssemblyDialog
 
     Public invApp As Inventor.Application
     Public drawingList As New ArrayList
+    'Public drawingList As New DrawingDocuments
     Public serverLogin As New ServerLogin
     Private bAllChecked As Boolean = False
     Private exportPath As String = "\\ANTHRO3\dwf\Standard\"
@@ -215,15 +216,18 @@ Public Class ExportDWFxfromAssemblyDialog
                 'Make the call to Vault to get the potential files to download.
                 'The list is potential because there is no garantee that there is a drawing
                 'file for every document selected.
-                'files = serverLogin.docSvc.FindLatestFilesByPaths(strDrawingFiles)
+                files = serverLogin.connection.WebServiceManager.DocumentService.FindLatestFilesByPaths(strDrawingFiles)
+
+                Dim fileIters As List(Of VDF.Vault.Currency.Entities.FileIteration) = New List(Of VDF.Vault.Currency.Entities.FileIteration)
+                For Each vFile In files
+                    fileIters.Add(New VDF.Vault.Currency.Entities.FileIteration(serverLogin.connection, vFile))
+                Next
 
                 'Iterate through the list of files to down load
                 'Error checking for the existence of files is handled in the Vaultservices class
-                For i = 0 To files.Length - 1
-                    If files(i).Name <> Nothing Then
-                        vaultService.Execute(files(i), strDownloadFiles, serverLogin)
-                    End If
-                Next
+                'vaultService.DownloadDialog(fileIters.Item(0), serverLogin, New WindowWrapper(invApp.MainFrameHWND))
+                vaultService.Execute(fileIters, strDownloadFiles, serverLogin)
+
 
                 'We are finished with the Vault services so log out of the Vault
                 serverLogin.LogoutOfVault()
