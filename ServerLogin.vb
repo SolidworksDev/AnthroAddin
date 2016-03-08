@@ -13,29 +13,33 @@ Public Class ServerLogin
     Public Sub LoginToVault(ByVal serverName As String)
 
         Dim strUserName As String = Environment.UserName
-        If strUserName = "steve" Then
+        If strUserName = "PCN8CZ" Or strUserName = "pcn8cz" Then
+            strUserName = "CarbajalP"
+        ElseIf strUserName = "CBGH72" Or strUserName = "cbgh72" Then
+            strUserName = "BartonC"
+        ElseIf strUserName = "BK83F6" Or strUserName = "bk83f6" Then
+            strUserName = "KnightB"
+        ElseIf strUserName = "SAUQQ3" Or strUserName = "sauqq3" Then
+            strUserName = "AldrichS"
+        ElseIf strUserName = "MGXP3V" Or strUserName = "mgxp3v" Then
+            strUserName = "GiansanteM"
+        ElseIf strUserName = "TCS4FS" Or strUserName = "tcs4fs" Then
+            strUserName = "cliftt"
+        ElseIf strUserName = "REWJK3" Or strUserName = "rewjk3" Then
+            strUserName = "ElliottR"
+        ElseIf strUserName = "SL8LQZ" Or strUserName = "sl8lqz" Then
             strUserName = "LinderS"
-        ElseIf strUserName = "jeffm" Then
-            strUserName = "McCaffreyJ"
-        ElseIf strUserName = "mike" Then
-            strUserName = "MullenM"
-        ElseIf strUserName = "jerryn" Then
-            strUserName = "NethkenJ"
-        ElseIf strUserName = "Mikedg" Then
-            strUserName = "cliftt"
-        ElseIf strUserName = "mikedg" Then
-            strUserName = "cliftt"
+        ElseIf strUserName = "BRHLEU" Or strUserName = "brhleu" Then
+            strUserName = "Rurikb"
+        ElseIf strUserName = "COA32B" Or strUserName = "coa32b" Then
+            strUserName = "OcallaghanC"
+        ElseIf strUserName = "JWJ7JC" Or strUserName = "jwj7jc" Then
+            strUserName = "WarrenJ"
         Else
-            Dim length As Integer = strUserName.Length
-            Dim strLastChar As String = strUserName.Remove(1)
-            Dim strMiddelChars As String = strUserName.Remove(0, 1)
-            Dim strFirstChar As String = strMiddelChars.Remove(1)
-            strMiddelChars = strMiddelChars.Remove(0, 1)
-            strUserName = strFirstChar.ToUpper + strMiddelChars + strLastChar.ToUpper
+            MessageBox.Show("No Vault Login found for user: " + strUserName + " Please contact the Vault Administrator")
         End If
         
         Try
-
             Try
                 results = VDF.Vault.Library.ConnectionManager.LogIn("svr19", "Anthro_Vault", strUserName, "1234", VDF.Vault.Currency.Connections.AuthenticationFlags.Standard, Nothing)
             Catch ex As Exception

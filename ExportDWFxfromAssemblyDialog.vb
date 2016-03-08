@@ -18,6 +18,7 @@ Public Class ExportDWFxfromAssemblyDialog
     Public serverLogin As New ServerLogin
     Private bAllChecked As Boolean = False
     Private exportPath As String = "\\ANTHRO3\dwf\Standard\"
+    'Private exportPath As String = "C:\Users\tclift\Documents\YESMORSP\"
     Private exportDXFPath As String = "\\ANTHRO3\DXF\"
     Private strFileName As String = ""
     Private bCurrentSettings As Boolean = False

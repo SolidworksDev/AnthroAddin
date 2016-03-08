@@ -140,9 +140,7 @@ Public Class printDrawingsfromAssemblyDialog
         Dim i As Integer
         Dim j As Integer
 
-
         Dim intUserResponse As Integer = 0
-
         Dim invDocs As Documents = invApp.Documents
         Dim drawingFiles() As String = {}
         Dim downloadFiles() As String = {}

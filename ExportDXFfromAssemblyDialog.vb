@@ -7,6 +7,7 @@ Public Class ExportDXFfromAssemblyDialog
     Public invApp As Inventor.Application
     Public DocList As New DXFDocuments
     Public strDXFLocation As String = "\\svr12T\TRUMPF.NET\DXF\"
+    'Public strDXFLocation As String = "C:\Users\tclift\Documents\YESMORSP\"
     Private bAllChecked As Boolean = False
 
     ' Create a property so the controls can be easily retrieved.
@@ -94,11 +95,15 @@ Public Class ExportDXFfromAssemblyDialog
         Dim invDataIO As DataIO
         ' Build the string that defines the format of the DXF file.
         Dim sOut As String
-        sOut = "FLAT PATTERN DXF?AcadVersion=2004&InvisibleLayers=IV_TANGENT;IV_ARC_CENTERS;IV_ALTREP_FRONT;IV_ALTREP_BACK;IV_UNCOMSUMED_SKETCHES;IV_ROLL_TANGENT;IV_ROLL"
+        sOut = "FLAT PATTERN DXF?AcadVersion=2000&InvisibleLayers=IV_TANGENT;IV_ARC_CENTERS;IV_ALTREP_FRONT;IV_ALTREP_BACK;IV_UNCOMSUMED_SKETCHES;IV_ROLL_TANGENT;IV_ROLL"
+        'sOut = ""
         For i = 0 To DocList.DocIndex.Count - 1
             invDoc = invDocs(DocList.DocIndex.Item(i))
             strFullPathWithName = strDXFLocation + ChangeExtension(invDoc.DisplayName(), ".dxf")
+            invDoc.SaveAs(strFullPathWithName, True)
             invDataIO = invDoc.ComponentDefinition.DataIO
+
+
             ' Create the DXF file.
             invDataIO.WriteDataToFile(sOut, strFullPathWithName)
         Next
