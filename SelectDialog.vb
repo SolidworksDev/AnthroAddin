@@ -139,6 +139,7 @@ Public Class SelectDialog
                     If invDocs.Item(i).DisplayName = drawingList.Item(j).ToString And invDocs.Item(i).DocumentType = DocumentTypeEnum.kDrawingDocumentObject Then
                         If chkExport.Checked = True Then
                             invDocs.Item(i).SaveAs(exportPath & RemoveExt(drawingList(j).ToString) & ".dwfx", True)
+                            invDocs.Item(i).SaveAs(exportPath & RemoveExt(drawingList(j).ToString) & ".pdf", True)
                         End If
                         If chkPrint.Checked = True Then
                             invDocs.Item(i).PrintManager.SubmitPrint()

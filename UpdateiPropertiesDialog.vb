@@ -31,11 +31,11 @@ Public Class UpdateiPropertiesDialog
 
             Dim LablePosition As System.Drawing.Point
             LablePosition.X = 12
-            LablePosition.Y = 45
+            LablePosition.Y = 65
 
             Dim ListPosition As System.Drawing.Point
             ListPosition.X = 12
-            ListPosition.Y = 70
+            ListPosition.Y = 90
 
             Dim newList As New CheckedListBox
             Dim newLable As New System.Windows.Forms.Label
@@ -46,13 +46,13 @@ Public Class UpdateiPropertiesDialog
 
             newLable.Name = "DocumentsListDialogLable"
             newLable.Text = "Select documents to update"
-            newLable.Width = 250
+            newLable.Width = 240
             newLable.Location = LablePosition
 
             newList.Text = "Select Documents"
             newList.Name = "DocumentsListBox"
             newList.Width = 260
-            newList.Height = 270
+            newList.Height = 250
             newList.Location = ListPosition
 
             Dim DocName As String
@@ -147,13 +147,37 @@ Public Class UpdateiPropertiesDialog
 
     End Sub
 
+    Public Sub AddECOReleaseBlock(ByRef invDrawingDoc As DrawingDocument)
+
+        Dim invDrawingSheet As Sheet = Nothing
+        Dim invSketchSymbolECO As SketchedSymbol = Nothing
+        Dim invSketchSymbolDef As SketchedSymbolDefinition = Nothing
+        Dim ecoPosition As Point2d = invApp.TransientGeometry.CreatePoint2d(22.479, 20.466)
+        Dim sPromptStrings(4) As String
+        sPromptStrings(0) = Date.Today()
+        sPromptStrings(1) = Me.txtBxReleaseECO.Text
+        sPromptStrings(2) = "Release ECO"
+        sPromptStrings(3) = "A"
+        sPromptStrings(4) = Me.txtBxApprovedBy.Text
+
+        Try
+            invSketchSymbolDef = invDrawingDoc.SketchedSymbolDefinitions.Item("ECO 1 LINE")
+            invDrawingSheet = invDrawingDoc.Sheets.Item(1)
+            invSketchSymbolECO = invDrawingSheet.SketchedSymbols.Add(invSketchSymbolDef, ecoPosition, 0, 1, sPromptStrings)
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString)
+        End Try
+
+       
+    End Sub
+
     Public Sub MoveECOBlocks(ByVal invRefDoc As Document, ByVal invDrawingDoc As Document)
 
         Dim invPropSets As PropertySets
         Dim invPropSet As PropertySet
         Dim invPartRevisionProp As Inventor.Property
         Dim invDrawingSheet As Sheet = Nothing
-        Dim invSketchSymbol As SketchedSymbol = Nothing
+        Dim invSketchSymbol As SketchedSymbol = Nothing       
         Dim ecoPosition As Point2d = Nothing
         Dim x As Integer
 
@@ -167,7 +191,7 @@ Public Class UpdateiPropertiesDialog
                 For k = 1 To invDrawingDoc.Sheets.Count
                     invDrawingSheet = invDrawingDoc.Sheets.Item(k)
                     For l = 1 To invDrawingSheet.SketchedSymbols.Count
-                        invSketchSymbol = invDrawingSheet.SketchedSymbols.Item(l)
+                        invSketchSymbol = invDrawingSheet.SketchedSymbols.Item(l)                        
                         If invSketchSymbol.Name.Substring(0, 4) = "ECO " Then
                             ecoPosition = invSketchSymbol.Position
                             ecoPosition.X = ecoPosition.X + 6.0
@@ -189,7 +213,7 @@ Public Class UpdateiPropertiesDialog
         Dim file() As ACW.File
         Dim fileIter As VDF.Vault.Currency.Entities.FileIteration
         Dim returnFileIter As VDF.Vault.Currency.Entities.FileIteration
-        Dim vaultService As New VaultServices        
+        Dim vaultService As New VaultServices
 
 
         Dim fullPath As String = invDoc.FullDocumentName
@@ -227,7 +251,7 @@ Public Class UpdateiPropertiesDialog
 
                 returnFileIter = serverLogin.connection.FileManager.CheckinFile(fileIter, "Drawing Approval", False,
                                                   oDate, Nothing, Nothing, True,
-                                                  Nothing, file(0).FileClass, False, stream)               
+                                                  Nothing, file(0).FileClass, False, stream)
 
 
             Else
@@ -236,7 +260,7 @@ Public Class UpdateiPropertiesDialog
                 oDate = System.IO.File.GetLastAccessTime(invDoc.FullDocumentName)
                 returnFileIter = serverLogin.connection.FileManager.CheckinFile(fileIter, "Drawing Approval", False,
                                                    oDate, Nothing, Nothing, True,
-                                                   Nothing, file(0).FileClass, False, stream)                
+                                                   Nothing, file(0).FileClass, False, stream)
 
             End If
 
@@ -248,7 +272,7 @@ Public Class UpdateiPropertiesDialog
 
     Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAccept.Click
 
-        Dim invDocs As Documents = invApp.Documents                      
+        Dim invDocs As Documents = invApp.Documents
         Dim drawingFiles() As ACW.File = {}
         Dim refFiles() As ACW.File = {}
         Dim strDrawingFiles() As String = {}
@@ -256,14 +280,15 @@ Public Class UpdateiPropertiesDialog
         Dim strRefFiles() As String = Nothing
         Dim strFolders() As String = {}
         Dim strLocalPath() As String = Nothing
-        Dim vaultService As New VaultServices          
+        Dim vaultService As New VaultServices
         Dim invCurrentRefDoc As Document
-        Dim invCurrentDrawingDoc As Document
+        Dim invCurrentDrawingDoc As DrawingDocument
         Dim invCurrentRefPartDoc As Document
         Dim verifyForm As New VerifyForm
+        Dim invReleaseECOPosition As Point2d = Nothing
         Dim DrawingListcontrols As Control.ControlCollection = verifyForm.DrawingListFormControls
         Dim progress As New ProgressDialog
-       
+
         serverLogin.LoginToVault(HOST)
 
         Try
@@ -403,9 +428,13 @@ Public Class UpdateiPropertiesDialog
                         invCurrentDrawingDoc = invDocs.ItemByName(docsList.Item(i).GetDrawingPathName())
 #If DEBUG Then
                         'Don't change iProperties of drawings in debug mode
+                        MoveECOBlocks(invCurrentRefDoc, invCurrentDrawingDoc)
+                        SetiProperty(invCurrentRefDoc)
+                        AddECOReleaseBlock(invCurrentDrawingDoc)
 #Else
                         MoveECOBlocks(invCurrentRefDoc, invCurrentDrawingDoc)
                         SetiProperty(invCurrentRefDoc)
+                        AddECOReleaseBlock(invCurrentDrawingDoc)
 #End If
 
                         If invCurrentRefDoc.DocumentType = DocumentTypeEnum.kAssemblyDocumentObject Then
@@ -431,6 +460,8 @@ Public Class UpdateiPropertiesDialog
                                 End If
 #If DEBUG Then
                                 'Don't check in files in debug mode
+                                SetiProperty(invCurrentRefPartDoc)
+                                CheckinDoc(invCurrentRefPartDoc)
 #Else
                                 SetiProperty(invCurrentRefPartDoc)
                                 CheckinDoc(invCurrentRefPartDoc)
@@ -445,11 +476,13 @@ Public Class UpdateiPropertiesDialog
                         invApp.SilentOperation = False
 
 #If DEBUG Then
-                        'Don't check in files when debugging                       
+                        'Don't check in files when debugging 
+                        CheckinDoc(invCurrentRefDoc)
+                        CheckinDoc(invCurrentDrawingDoc)
 #Else
                         CheckinDoc(invCurrentRefDoc)
                         CheckinDoc(invCurrentDrawingDoc)
-#End If                       
+#End If
 
                     End If
                 Next
@@ -508,10 +541,27 @@ Public Class UpdateiPropertiesDialog
         Try
 
             If Not AllLetters(Me.txtBxApprovedBy.Text) Then
-                ErrorProvider1.SetError(txtBxApprovedBy, "You must imput a valid apporved by initial")
+                ErrorProvider1.SetError(txtBxApprovedBy, "You must input a valid apporved by initial")
                 e.Cancel = True
             Else
                 ErrorProvider1.SetError(txtBxApprovedBy, "")
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString)
+        End Try
+
+    End Sub
+
+    Private Sub txtBxReleaseECO_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtBxReleaseECO.Validating
+
+        Try
+
+            If Not AllNumbersDashOrLetters(Me.txtBxReleaseECO.Text) Then
+                ErrorProvider2.SetError(txtBxReleaseECO, "You must input a valid ECO number")
+                e.Cancel = True
+            Else
+                ErrorProvider2.SetError(txtBxReleaseECO, "")
             End If
 
         Catch ex As Exception
@@ -552,6 +602,10 @@ Public Class UpdateiPropertiesDialog
     End Sub
 
     Private Sub txtBxApprovedBy_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtBxApprovedBy.TextChanged
+
+    End Sub
+
+    Private Sub ReleaseECO_Click(sender As Object, e As EventArgs) Handles ReleaseECO.Click
 
     End Sub
 End Class

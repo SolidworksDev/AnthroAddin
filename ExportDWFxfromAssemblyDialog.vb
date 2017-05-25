@@ -116,6 +116,7 @@ Public Class ExportDWFxfromAssemblyDialog
         Dim invDocs As Documents = invApp.Documents
         Dim invDrawingDoc As DrawingDocument
 
+        Dim drawings As New List(Of String)
         Dim drawingFiles() As String = {}
         Dim downloadFiles() As String = {}
         Dim strDrawingFiles() As String = {}
@@ -156,6 +157,7 @@ Public Class ExportDWFxfromAssemblyDialog
                                 Dim currentDoc As New iPropDocs
                                 currentDoc.SetRefFile(anObject.ToString)
                                 drawingsList.Add(currentDoc)
+                                drawings.Add(currentDoc.GetFullDrawingName)
                                 Me.Cursor = Cursors.Default
                             End If
                         Next
@@ -252,6 +254,7 @@ Public Class ExportDWFxfromAssemblyDialog
                     End If
                     invDrawingDoc = invDocs.Open(strDrawingFileName)
                     invDrawingDoc.SaveAs(exportPath & ChangeExtension(invDrawingDoc.DisplayName(), "dwfx"), True)
+                    invDrawingDoc.SaveAs(exportPath & ChangeExtension(invDrawingDoc.DisplayName(), "pdf"), True)
                     'Added to export .dxf file to new location'
                     'invDrawingDoc.SaveAs(exportDXFPath & invDrawingDoc.DisplayName & ".dxf", True)
                     invDrawingDoc.Close()

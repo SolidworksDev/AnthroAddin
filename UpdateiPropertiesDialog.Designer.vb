@@ -30,14 +30,18 @@ Partial Class UpdateiPropertiesDialog
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.txtBxApprovedBy = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.ReleaseECO = New System.Windows.Forms.Label()
+        Me.txtBxReleaseECO = New System.Windows.Forms.TextBox()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.SelectAll = New System.Windows.Forms.CheckBox()
         Me.ShowUnApproved = New System.Windows.Forms.CheckBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.ErrorProvider2 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.ErrorProvider2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -76,24 +80,26 @@ Partial Class UpdateiPropertiesDialog
         'TableLayoutPanel2
         '
         Me.TableLayoutPanel2.ColumnCount = 2
-        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.1284!))
-        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.8716!))
+        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.46304!))
+        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.53696!))
         Me.TableLayoutPanel2.Controls.Add(Me.txtBxApprovedBy, 1, 0)
         Me.TableLayoutPanel2.Controls.Add(Me.Label1, 0, 0)
+        Me.TableLayoutPanel2.Controls.Add(Me.ReleaseECO, 0, 1)
+        Me.TableLayoutPanel2.Controls.Add(Me.txtBxReleaseECO, 1, 1)
         Me.TableLayoutPanel2.Location = New System.Drawing.Point(12, 12)
         Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
-        Me.TableLayoutPanel2.RowCount = 1
+        Me.TableLayoutPanel2.RowCount = 2
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel2.Size = New System.Drawing.Size(257, 32)
+        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29.0!))
+        Me.TableLayoutPanel2.Size = New System.Drawing.Size(257, 52)
         Me.TableLayoutPanel2.TabIndex = 2
         '
         'txtBxApprovedBy
         '
-        Me.txtBxApprovedBy.Location = New System.Drawing.Point(82, 3)
+        Me.txtBxApprovedBy.Location = New System.Drawing.Point(89, 3)
         Me.txtBxApprovedBy.Name = "txtBxApprovedBy"
         Me.txtBxApprovedBy.Size = New System.Drawing.Size(148, 20)
         Me.txtBxApprovedBy.TabIndex = 2
-        Me.txtBxApprovedBy.Text = "SRA"
         '
         'Label1
         '
@@ -103,6 +109,22 @@ Partial Class UpdateiPropertiesDialog
         Me.Label1.Size = New System.Drawing.Size(71, 13)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Approved By:"
+        '
+        'ReleaseECO
+        '
+        Me.ReleaseECO.AutoSize = True
+        Me.ReleaseECO.Location = New System.Drawing.Point(3, 23)
+        Me.ReleaseECO.Name = "ReleaseECO"
+        Me.ReleaseECO.Size = New System.Drawing.Size(74, 13)
+        Me.ReleaseECO.TabIndex = 3
+        Me.ReleaseECO.Text = "Release ECO:"
+        '
+        'txtBxReleaseECO
+        '
+        Me.txtBxReleaseECO.Location = New System.Drawing.Point(89, 26)
+        Me.txtBxReleaseECO.Name = "txtBxReleaseECO"
+        Me.txtBxReleaseECO.Size = New System.Drawing.Size(148, 20)
+        Me.txtBxReleaseECO.TabIndex = 4
         '
         'ErrorProvider1
         '
@@ -138,6 +160,10 @@ Partial Class UpdateiPropertiesDialog
         Me.Panel1.Size = New System.Drawing.Size(263, 60)
         Me.Panel1.TabIndex = 5
         '
+        'ErrorProvider2
+        '
+        Me.ErrorProvider2.ContainerControl = Me
+        '
         'UpdateiPropertiesDialog
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -159,6 +185,7 @@ Partial Class UpdateiPropertiesDialog
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.ErrorProvider2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -172,4 +199,7 @@ Partial Class UpdateiPropertiesDialog
     Friend WithEvents ShowUnApproved As System.Windows.Forms.CheckBox
     Friend WithEvents txtBxApprovedBy As System.Windows.Forms.TextBox
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents ReleaseECO As System.Windows.Forms.Label
+    Friend WithEvents txtBxReleaseECO As System.Windows.Forms.TextBox
+    Friend WithEvents ErrorProvider2 As System.Windows.Forms.ErrorProvider
 End Class
