@@ -13,32 +13,28 @@ Public Class ServerLogin
     Public Sub LoginToVault(ByVal serverName As String)
 
         Dim strUserName As String = Environment.UserName
-        If strUserName = "PCN8CZ" Or strUserName = "pcn8cz" Then
-            strUserName = "CarbajalP"
-        ElseIf strUserName = "CBGH72" Or strUserName = "cbgh72" Then
+        If strUserName = "Craing.Barton" Or strUserName = "craig.barton" Then
             strUserName = "BartonC"
-        ElseIf strUserName = "BK83F6" Or strUserName = "bk83f6" Then
+        ElseIf strUserName = "Brent.Knight" Or strUserName = "brent.knight" Then
             strUserName = "KnightB"
-        ElseIf strUserName = "SAUQQ3" Or strUserName = "sauqq3" Then
-            strUserName = "AldrichS"
-        ElseIf strUserName = "MGXP3V" Or strUserName = "mgxp3v" Then
+        ElseIf strUserName = "Michael.Giansante" Or strUserName = "michael.giansante" Then
             strUserName = "GiansanteM"
-        ElseIf strUserName = "TCS4FS" Or strUserName = "tcs4fs" Then
+        ElseIf strUserName = "James.Clift" Or strUserName = "james.clift" Then
             strUserName = "cliftt"
-        ElseIf strUserName = "REWJK3" Or strUserName = "rewjk3" Then
+        ElseIf strUserName = "Ronald.Elliott" Or strUserName = "ronald.elliott" Then
             strUserName = "ElliottR"
-        ElseIf strUserName = "SL8LQZ" Or strUserName = "sl8lqz" Then
+        ElseIf strUserName = "Steve.Linder" Or strUserName = "steve.linder" Then
             strUserName = "LinderS"
-        ElseIf strUserName = "BRHLEU" Or strUserName = "brhleu" Then
+        ElseIf strUserName = "Brian.Rurik" Or strUserName = "brian.rurik" Then
             strUserName = "Rurikb"
-        ElseIf strUserName = "COA32B" Or strUserName = "coa32b" Then
+        ElseIf strUserName = "Colin.OCallaghn" Or strUserName = "colin.ocallaghn" Then
             strUserName = "OcallaghanC"
-        ElseIf strUserName = "JWJ7JC" Or strUserName = "jwj7jc" Then
-            strUserName = "WarrenJ"
+        ElseIf strUserName = "Nick.McFaddin" Or strUserName = "nick.mcfaddin" Then
+            strUserName = "mcfaddinn"
         Else
             MessageBox.Show("No Vault Login found for user: " + strUserName + " Please contact the Vault Administrator")
         End If
-        
+
         Try
             Try
                 results = VDF.Vault.Library.ConnectionManager.LogIn("svr19", "Anthro_Vault", strUserName, "1234", VDF.Vault.Currency.Connections.AuthenticationFlags.Standard, Nothing)
