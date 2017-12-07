@@ -1,13 +1,14 @@
 ﻿Imports Inventor
 Imports System.Windows.Forms
 Imports System.IO.Path
+Imports System.Collections.Generic
 
 Public Class ExportDXFfromAssemblyDialog
 
     Public invApp As Inventor.Application
-    Public DocList As New DXFDocuments
-    Public strDXFLocation As String = "\\svr12T\TRUMPF.NET\DXF\"
-    'Public strDXFLocation As String = "C:\Users\tclift\Documents\YESMORSP\"
+    Public DocList As New List(Of DXFDocuments)()
+    Public strDXFLocation As String = "\\anthro3\Design\temp\Aod\K001608\"
+    'Public strDXFLocation As String = "C:\Users\tcs4fs\Documents\YESMJUzzxx\"
     Private bAllChecked As Boolean = False
 
     ' Create a property so the controls can be easily retrieved.
@@ -64,7 +65,7 @@ Public Class ExportDXFfromAssemblyDialog
         newList.Location = ListPosition
 
         Dim invAsmDoc As AssemblyDocument
-        invAsmDoc = invApp.ActiveDocument        
+        invAsmDoc = invApp.ActiveDocument
 
         Dim invRefDocs As DocumentsEnumerator
         invRefDocs = invAsmDoc.AllReferencedDocuments
@@ -72,10 +73,10 @@ Public Class ExportDXFfromAssemblyDialog
         Dim invRefDoc As Document
 
         For Each invRefDoc In invRefDocs
-            If IsSheetMetal(invRefDoc.DisplayName) And _
-                invRefDoc.DocumentType = DocumentTypeEnum.kPartDocumentObject Then
-                newList.Items.Add(invRefDoc.DisplayName)
-            End If
+            'If IsSheetMetal(invRefDoc.DisplayName) And _
+            '    invRefDoc.DocumentType = DocumentTypeEnum.kPartDocumentObject Then
+            newList.Items.Add(invRefDoc.DisplayName)
+            'End If
         Next
 
         inControls.Add(newLable)
@@ -84,7 +85,7 @@ Public Class ExportDXFfromAssemblyDialog
 
     End Function
 
-    Private Sub ExportToServer(ByVal invDocs As Documents, ByVal DocList As DXFDocuments)
+    Private Sub ExportToServer(ByVal invDocs As Documents, ByVal DocList As List(Of DXFDocuments))
 
         Dim strFullPathWithName As String
 
@@ -93,18 +94,18 @@ Public Class ExportDXFfromAssemblyDialog
 
         ' Get the DataIO object.
         Dim invDataIO As DataIO
+
         ' Build the string that defines the format of the DXF file.
         Dim sOut As String
         sOut = "FLAT PATTERN DXF?AcadVersion=2000&InvisibleLayers=IV_TANGENT;IV_ARC_CENTERS;IV_ALTREP_FRONT;IV_ALTREP_BACK;IV_UNCOMSUMED_SKETCHES;IV_ROLL_TANGENT;IV_ROLL"
-        'sOut = ""
-        For i = 0 To DocList.DocIndex.Count - 1
-            invDoc = invDocs(DocList.DocIndex.Item(i))
+
+        For i = 0 To DocList.Count - 1
+            invDoc = invDocs(DocList.Item(i).PartIndex)
             strFullPathWithName = strDXFLocation + ChangeExtension(invDoc.DisplayName(), ".dxf")
             invDoc.SaveAs(strFullPathWithName, True)
+
+            'Create the DXF file.
             invDataIO = invDoc.ComponentDefinition.DataIO
-
-
-            ' Create the DXF file.
             invDataIO.WriteDataToFile(sOut, strFullPathWithName)
         Next
 
@@ -127,7 +128,9 @@ Public Class ExportDXFfromAssemblyDialog
                 If CType(aControl, CheckedListBox).CheckedItems.Count <> 0 Then
                     For Each anObject In CType(aControl, CheckedListBox).CheckedItems
                         If TypeOf anObject Is String Then
-                            DocList.SetDocName(anObject.ToString)
+                            DocList.Add(New DXFDocuments() With { _
+                            .PartName = anObject.ToString, _
+                                    .PartIndex = 0})
                         End If
                     Next
                 Else
@@ -140,16 +143,22 @@ Public Class ExportDXFfromAssemblyDialog
 
         Me.Visible = False
 
-        For i = 0 To DocList.DocName.Count - 1
+        For i = 0 To DocList.Count - 1
             For j = 1 To invDocs.Count
-                If invDocs.Item(j).DisplayName = DocList.DocName.Item(i).ToString And _
-                    invDocs.Item(j).DocumentType = DocumentTypeEnum.kPartDocumentObject Then
-                    DocList.SetDocIndex(j)
+                If invDocs.Item(j).DisplayName = DocList.Item(i).PartName And _
+                    (invDocs.Item(j).DocumentType = DocumentTypeEnum.kPartDocumentObject Or invDocs.Item(j).DocumentType = DocumentTypeEnum.kAssemblyDocumentObject) Then
+                    DocList.Item(i).PartIndex = j
                 End If
             Next j
         Next i
 
-        verifyForm.VerifyDialog_AddListBox(DocList.DocName, PartsListcontrols, _
+        Dim DocsList As New ArrayList
+
+        For i = 0 To DocList.Count - 1
+            DocsList.Add(DocList.Item(i).PartName)
+        Next
+
+        verifyForm.VerifyDialog_AddListBox(DocsList, PartsListcontrols, _
                                               "DrawingsListDialogLable",
                                               "Export the following drawings?",
                                               "DrawingsListBox",
@@ -157,15 +166,14 @@ Public Class ExportDXFfromAssemblyDialog
 
         verifyForm.Text = "Verify Export DXF"
         verifyForm.Icon = My.Resources.DXFIcon
-        VerifyForm.ShowDialog()
+        verifyForm.ShowDialog()
 
         If verifyForm.bAcceptClicked = True Then
             ExportToServer(invDocs, DocList)
             Me.Close()
         Else
             Me.Visible = True
-            DocList.DocName.Clear()
-            DocList.DocIndex.Clear()
+            DocList.Clear()
             aControl = Nothing
             anObject = Nothing
         End If
@@ -173,8 +181,7 @@ Public Class ExportDXFfromAssemblyDialog
     End Sub
 
     Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        DocList.DocName.Clear()
-        DocList.DocIndex.Clear()
+        DocList.Clear()
         Me.Close()
     End Sub
 

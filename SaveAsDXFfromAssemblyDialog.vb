@@ -19,7 +19,8 @@ Public Class saveAsDXFfromAssemblyDialog
     Public Shared bCancelClicked As Boolean = False
     Private anObject As Object
     Private strDrawingFileNames As String = ""
-    Private strFileLocation As String = "\\anthro3\DXF\"
+    'Private strFileLocation As String = "\\anthro3\DXF\"
+    Private strFileLocation As String = "\\anthro3\Design\temp\Aod\"
     Private drawingFileName As String
     Private drawingFullPath As String
 

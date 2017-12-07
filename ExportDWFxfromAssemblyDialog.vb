@@ -18,7 +18,7 @@ Public Class ExportDWFxfromAssemblyDialog
     Public serverLogin As New ServerLogin
     Private bAllChecked As Boolean = False
     Private exportPath As String = "\\ANTHRO3\dwf\Standard\"
-    'Private exportPath As String = "C:\Users\tclift\Documents\YESMORSP\"
+    'Private exportPath As String = "\\anthro3\Design\TimClift\YESMJUzzxx4\"
     Private exportDXFPath As String = "\\ANTHRO3\DXF\"
     Private strFileName As String = ""
     Private bCurrentSettings As Boolean = False
@@ -254,7 +254,7 @@ Public Class ExportDWFxfromAssemblyDialog
                     End If
                     invDrawingDoc = invDocs.Open(strDrawingFileName)
                     invDrawingDoc.SaveAs(exportPath & ChangeExtension(invDrawingDoc.DisplayName(), "dwfx"), True)
-                    invDrawingDoc.SaveAs(exportPath & ChangeExtension(invDrawingDoc.DisplayName(), "pdf"), True)
+                    'invDrawingDoc.SaveAs(exportPath & ChangeExtension(invDrawingDoc.DisplayName(), "pdf"), True)
                     'Added to export .dxf file to new location'
                     'invDrawingDoc.SaveAs(exportDXFPath & invDrawingDoc.DisplayName & ".dxf", True)
                     invDrawingDoc.Close()

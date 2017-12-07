@@ -1,13 +1,26 @@
 ﻿Public Class DXFDocuments
-    Public DocIndex As New ArrayList
-    Public DocName As New ArrayList
+    
+    Private m_PartName As String
+    Private m_PartIndex As String
 
-    Public Sub SetDocName(ByVal invDocName As String)
-        DocName.Add(invDocName)
-    End Sub
+    Public Property PartName() As String
+        Get
+            Return m_PartName
+        End Get
 
-    Public Sub SetDocIndex(ByVal invDocIndex As Integer)
-        DocIndex.Add(invDocIndex)
-    End Sub
+        Set(value As String)
+            m_PartName = value
+        End Set
+    End Property
+
+    Public Property PartIndex() As String
+        Get
+            Return m_PartIndex
+        End Get
+
+        Set(value As String)
+            m_PartIndex = value
+        End Set
+    End Property
 
 End Class

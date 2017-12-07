@@ -156,7 +156,7 @@ Public Class UpdateiPropertiesDialog
         Dim sPromptStrings(4) As String
         sPromptStrings(0) = Date.Today()
         sPromptStrings(1) = Me.txtBxReleaseECO.Text
-        sPromptStrings(2) = "Release ECO"
+        sPromptStrings(2) = "Release to Production"
         sPromptStrings(3) = "A"
         sPromptStrings(4) = Me.txtBxApprovedBy.Text
 

@@ -73,6 +73,12 @@ Module globals
             IsDoc = True
         ElseIf strFirstThreeChr = "634-" Then
             IsDoc = True
+        ElseIf strFirstThreeChr = "695-" Then
+            IsDoc = True
+        ElseIf strFirstThreeChr = "698-" Then
+            IsDoc = True
+        ElseIf strFirstThreeChr = "718-" Then
+            IsDoc = True
         ElseIf strFirstThreeChr = "850-" Then
             IsDoc = True
         ElseIf strFirstTwoChr = "M-" Then
